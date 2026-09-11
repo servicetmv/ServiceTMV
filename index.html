@@ -1,0 +1,544 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>TMV Service Management</title>
+
+<style>
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  font-family: Arial, "Noto Sans Thai", sans-serif;
+  background: #f5f6f8;
+  color: #1e293b;
+}
+
+header {
+  background: #111827;
+  color: white;
+  padding: 24px 20px;
+}
+
+header h1 {
+  margin: 0;
+  font-size: 24px;
+}
+
+header p {
+  margin: 5px 0 0;
+  opacity: .7;
+  font-size: 14px;
+}
+
+.container {
+  max-width: 1400px;
+  margin: auto;
+  padding: 20px;
+}
+
+.dashboard {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 12px;
+  margin-bottom: 20px;
+}
+
+.card {
+  background: white;
+  border-radius: 14px;
+  padding: 16px;
+  box-shadow: 0 2px 8px rgba(0,0,0,.05);
+}
+
+.card-label {
+  font-size: 13px;
+  color: #64748b;
+}
+
+.card-value {
+  margin-top: 8px;
+  font-size: 22px;
+  font-weight: 700;
+}
+
+.toolbar {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 15px;
+}
+
+.search {
+  flex: 1;
+  border: 1px solid #d1d5db;
+  background: white;
+  padding: 12px 15px;
+  border-radius: 10px;
+  font-size: 15px;
+}
+
+.house-grid {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  gap: 10px;
+}
+
+.house {
+  background: white;
+  border-radius: 12px;
+  padding: 14px;
+  cursor: pointer;
+  border: 1px solid transparent;
+  transition: .15s;
+}
+
+.house:hover {
+  border-color: #111827;
+  transform: translateY(-1px);
+}
+
+.house-name {
+  font-weight: 700;
+  font-size: 16px;
+}
+
+.house-row {
+  margin-top: 8px;
+  font-size: 12px;
+  color: #64748b;
+}
+
+.status {
+  display: inline-block;
+  margin-top: 8px;
+  border-radius: 30px;
+  padding: 5px 9px;
+  font-size: 11px;
+}
+
+.status.paid {
+  background: #dcfce7;
+  color: #166534;
+}
+
+.status.due {
+  background: #fee2e2;
+  color: #991b1b;
+}
+
+.status.review {
+  background: #fef3c7;
+  color: #92400e;
+}
+
+.status.empty {
+  background: #f1f5f9;
+  color: #64748b;
+}
+
+.detail-panel {
+  display: none;
+  margin-top: 25px;
+  background: white;
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 2px 10px rgba(0,0,0,.05);
+}
+
+.detail-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 18px 20px;
+  background: #111827;
+  color: white;
+}
+
+.detail-header h2 { margin: 0; }
+
+.close {
+  border: 0;
+  background: white;
+  color: #111827;
+  border-radius: 8px;
+  padding: 8px 12px;
+  cursor: pointer;
+}
+
+.table-wrap { overflow-x: auto; }
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  min-width: 1100px;
+}
+
+th, td {
+  padding: 10px;
+  border-bottom: 1px solid #e5e7eb;
+  text-align: left;
+  font-size: 13px;
+}
+
+th {
+  background: #f8fafc;
+  white-space: nowrap;
+}
+
+.loading {
+  padding: 30px;
+  text-align: center;
+  color: #64748b;
+}
+
+.error {
+  background: #fee2e2;
+  color: #991b1b;
+  border-radius: 10px;
+  padding: 12px;
+  margin-bottom: 15px;
+}
+
+@media (max-width: 1100px) {
+  .dashboard { grid-template-columns: repeat(2, 1fr); }
+  .house-grid { grid-template-columns: repeat(4, 1fr); }
+}
+
+@media (max-width: 700px) {
+  .dashboard { grid-template-columns: 1fr 1fr; }
+  .house-grid { grid-template-columns: repeat(2, 1fr); }
+}
+</style>
+</head>
+
+<body>
+
+<header>
+  <h1>TMV Service Management</h1>
+  <p>ระบบตรวจสอบค่าน้ำ ค่าไฟ และค่าบริการรายบ้าน</p>
+</header>
+
+<div class="container">
+
+  <div id="errorBox" class="error" style="display:none"></div>
+
+  <div class="dashboard">
+    <div class="card">
+      <div class="card-label">ยอดวางบิล</div>
+      <div id="totalBill" class="card-value">-</div>
+    </div>
+
+    <div class="card">
+      <div class="card-label">ยอดรับแล้ว</div>
+      <div id="totalPaid" class="card-value">-</div>
+    </div>
+
+    <div class="card">
+      <div class="card-label">ยอดคงค้าง</div>
+      <div id="totalOutstanding" class="card-value">-</div>
+    </div>
+
+    <div class="card">
+      <div class="card-label">รอตรวจสอบ</div>
+      <div id="totalReview" class="card-value">-</div>
+    </div>
+
+    <div class="card">
+      <div class="card-label">บ้านที่มีคงค้าง</div>
+      <div id="totalDue" class="card-value">-</div>
+    </div>
+  </div>
+
+  <div class="toolbar">
+    <input id="searchInput" class="search" type="text" placeholder="ค้นหา เช่น TMV16">
+  </div>
+
+  <div id="houseGrid" class="house-grid">
+    <div class="loading">กำลังโหลดข้อมูล...</div>
+  </div>
+
+  <section id="detailPanel" class="detail-panel">
+    <div class="detail-header">
+      <h2 id="detailTitle">-</h2>
+      <button class="close" onclick="closeDetail()">ปิด</button>
+    </div>
+
+    <div id="detailContent" class="table-wrap"></div>
+  </section>
+
+</div>
+
+<script>
+const API = '/api/transactions';
+let allHouses = {};
+
+document.addEventListener('DOMContentLoaded', () => {
+  loadSummary();
+
+  document
+    .getElementById('searchInput')
+    .addEventListener('input', filterHouses);
+});
+
+async function loadSummary() {
+  clearError();
+
+  try {
+    const response = await fetch(API + '?mode=summary', {
+      cache: 'no-store'
+    });
+
+    if (!response.ok) {
+      throw new Error('HTTP ' + response.status);
+    }
+
+    const result = await response.json();
+
+    if (!result.ok) {
+      throw new Error(result.error || 'โหลดข้อมูลไม่สำเร็จ');
+    }
+
+    allHouses = result.houses || {};
+    renderDashboard(result.dashboard || {});
+    renderHouses(allHouses);
+
+  } catch (error) {
+    showError('ไม่สามารถโหลดข้อมูลได้: ' + error.message);
+  }
+}
+
+function renderDashboard(d) {
+  setText('totalBill', money(d.bill));
+  setText('totalPaid', money(d.paid));
+  setText('totalOutstanding', money(d.outstanding));
+  setText('totalReview', d.review || 0);
+  setText('totalDue', d.dueHouses || 0);
+}
+
+function renderHouses(houses) {
+  const grid = document.getElementById('houseGrid');
+  grid.innerHTML = '';
+
+  for (let i = 1; i <= 88; i++) {
+    const name = 'TMV' + i;
+    const h = houses[name] || {};
+    const status = h.status || {
+      label: 'ยังไม่มีข้อมูล',
+      cls: 'empty'
+    };
+
+    const div = document.createElement('div');
+    div.className = 'house';
+    div.onclick = () => loadHouse(name);
+
+    div.innerHTML = `
+      <div class="house-name">${name}</div>
+      <div class="house-row">วางบิล: ${money(h.bill)}</div>
+      <div class="house-row">รับแล้ว: ${money(h.paid)}</div>
+      <div class="house-row">คงค้าง: ${money(h.outstanding)}</div>
+      <span class="status ${status.cls}">${status.label}</span>
+    `;
+
+    grid.appendChild(div);
+  }
+}
+
+async function loadHouse(name) {
+  const panel = document.getElementById('detailPanel');
+  const content = document.getElementById('detailContent');
+
+  document.getElementById('detailTitle').textContent = 'รายละเอียด ' + name;
+  panel.style.display = 'block';
+  content.innerHTML = '<div class="loading">กำลังโหลดข้อมูลบ้าน...</div>';
+
+  panel.scrollIntoView({
+    behavior: 'smooth',
+    block: 'start'
+  });
+
+  try {
+    const response = await fetch(
+      API + '?mode=house&name=' + encodeURIComponent(name),
+      { cache: 'no-store' }
+    );
+
+    if (!response.ok) {
+      throw new Error('HTTP ' + response.status);
+    }
+
+    const result = await response.json();
+
+    if (!result.ok) {
+      throw new Error(result.error || 'โหลดบ้านไม่สำเร็จ');
+    }
+
+    renderHouseTable(result.data || []);
+
+  } catch (error) {
+    content.innerHTML =
+      '<div class="loading">เกิดข้อผิดพลาด: ' +
+      escapeHtml(error.message) +
+      '</div>';
+  }
+}
+
+function renderHouseTable(rows) {
+  const content = document.getElementById('detailContent');
+
+  if (!rows.length) {
+    content.innerHTML = '<div class="loading">ยังไม่มีข้อมูล</div>';
+    return;
+  }
+
+  let html = `
+    <table>
+      <thead>
+        <tr>
+          <th>เดือน</th>
+          <th>ค่าไฟ</th>
+          <th>ค่าน้ำ</th>
+          <th>ดูแลสระ</th>
+          <th>ทำความสะอาด</th>
+          <th>เข้า–ออก</th>
+          <th>ซักผ้า</th>
+          <th>อื่นๆ</th>
+          <th>วางบิล</th>
+          <th>รับแล้ว</th>
+          <th>คงค้าง</th>
+          <th>สถานะ</th>
+          <th>หมายเหตุ</th>
+          <th>ตรวจสอบหลักฐาน</th>
+          <th>วันที่วางบิล</th>
+        </tr>
+      </thead>
+      <tbody>
+  `;
+
+  rows.forEach(r => {
+    html += `
+      <tr>
+        <td>${escapeHtml(r.month)}</td>
+        <td>${moneyOrDash(r.electric)}</td>
+        <td>${moneyOrDash(r.water)}</td>
+        <td>${moneyOrDash(r.pool)}</td>
+        <td>${moneyOrDash(r.cleaning)}</td>
+        <td>${moneyOrDash(r.access)}</td>
+        <td>${moneyOrDash(r.laundry)}</td>
+        <td>${moneyOrDash(r.other)}</td>
+        <td>${moneyOrDash(r.bill)}</td>
+        <td>${moneyOrDash(r.paid)}</td>
+        <td>${moneyOrDash(r.outstanding)}</td>
+        <td>${escapeHtml(r.status || '-')}</td>
+        <td>${escapeHtml(r.note || '-')}</td>
+        <td>${escapeHtml(r.verification || '-')}</td>
+        <td>${escapeHtml(r.billDate || '-')}</td>
+      </tr>
+    `;
+  });
+
+  html += `
+      </tbody>
+    </table>
+  `;
+
+  content.innerHTML = html;
+}
+
+function filterHouses() {
+  const q = document
+    .getElementById('searchInput')
+    .value
+    .trim()
+    .toUpperCase();
+
+  if (!q) {
+    renderHouses(allHouses);
+    return;
+  }
+
+  const filtered = {};
+
+  Object.keys(allHouses).forEach(name => {
+    if (name.includes(q)) {
+      filtered[name] = allHouses[name];
+    }
+  });
+
+  const grid = document.getElementById('houseGrid');
+  grid.innerHTML = '';
+
+  Object.keys(filtered).forEach(name => {
+    const h = filtered[name];
+    const status = h.status || {
+      label: 'ยังไม่มีข้อมูล',
+      cls: 'empty'
+    };
+
+    const div = document.createElement('div');
+    div.className = 'house';
+    div.onclick = () => loadHouse(name);
+
+    div.innerHTML = `
+      <div class="house-name">${name}</div>
+      <div class="house-row">วางบิล: ${money(h.bill)}</div>
+      <div class="house-row">รับแล้ว: ${money(h.paid)}</div>
+      <div class="house-row">คงค้าง: ${money(h.outstanding)}</div>
+      <span class="status ${status.cls}">${status.label}</span>
+    `;
+
+    grid.appendChild(div);
+  });
+}
+
+function closeDetail() {
+  document.getElementById('detailPanel').style.display = 'none';
+}
+
+function money(value) {
+  const n = Number(value || 0);
+
+  return n.toLocaleString('th-TH', {
+    minimumFractionDigits: 2,
+    maximumFractionDigits: 2
+  }) + ' บาท';
+}
+
+function moneyOrDash(value) {
+  if (
+    value === null ||
+    value === undefined ||
+    value === ''
+  ) {
+    return '-';
+  }
+
+  return money(value);
+}
+
+function setText(id, value) {
+  document.getElementById(id).textContent = value;
+}
+
+function showError(text) {
+  const box = document.getElementById('errorBox');
+  box.textContent = text;
+  box.style.display = 'block';
+}
+
+function clearError() {
+  document.getElementById('errorBox').style.display = 'none';
+}
+
+function escapeHtml(value) {
+  return String(value ?? '')
+    .replaceAll('&', '&amp;')
+    .replaceAll('<', '&lt;')
+    .replaceAll('>', '&gt;')
+    .replaceAll('"', '&quot;')
+    .replaceAll("'", '&#039;');
+}
+</script>
+
+</body>
+</html>
