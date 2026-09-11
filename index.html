@@ -1,544 +1,3558 @@
 <!DOCTYPE html>
 <html lang="th">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>TMV Service Management</title>
+  <meta charset="UTF-8">
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+  >
 
-<style>
-* { box-sizing: border-box; }
+  <title>TMV SERVICE</title>
 
-body {
-  margin: 0;
-  font-family: Arial, "Noto Sans Thai", sans-serif;
-  background: #f5f6f8;
-  color: #1e293b;
-}
+  <style>
+    :root {
+      --blue: #173f70;
+      --blue-2: #0f3159;
+      --blue-light: #edf4fb;
 
-header {
-  background: #111827;
-  color: white;
-  padding: 24px 20px;
-}
+      --cream: #f7f2e8;
+      --white: #ffffff;
 
-header h1 {
-  margin: 0;
-  font-size: 24px;
-}
+      --text: #26384a;
+      --muted: #7b8794;
 
-header p {
-  margin: 5px 0 0;
-  opacity: .7;
-  font-size: 14px;
-}
+      --border: #e5e8ec;
 
-.container {
-  max-width: 1400px;
-  margin: auto;
-  padding: 20px;
-}
+      --green: #238a57;
+      --green-bg: #e7f6ed;
 
-.dashboard {
-  display: grid;
-  grid-template-columns: repeat(5, 1fr);
-  gap: 12px;
-  margin-bottom: 20px;
-}
+      --orange: #b66a1c;
+      --orange-bg: #fff1dc;
 
-.card {
-  background: white;
-  border-radius: 14px;
-  padding: 16px;
-  box-shadow: 0 2px 8px rgba(0,0,0,.05);
-}
+      --red: #c94a4a;
+      --red-bg: #fdeaea;
 
-.card-label {
-  font-size: 13px;
-  color: #64748b;
-}
+      --shadow:
+        0 8px 28px
+        rgba(25, 45, 70, 0.08);
 
-.card-value {
-  margin-top: 8px;
-  font-size: 22px;
-  font-weight: 700;
-}
+      --radius: 20px;
+      --radius-sm: 13px;
+    }
 
-.toolbar {
-  display: flex;
-  gap: 10px;
-  margin-bottom: 15px;
-}
+    * {
+      box-sizing: border-box;
+    }
 
-.search {
-  flex: 1;
-  border: 1px solid #d1d5db;
-  background: white;
-  padding: 12px 15px;
-  border-radius: 10px;
-  font-size: 15px;
-}
+    html {
+      scroll-behavior: smooth;
+    }
 
-.house-grid {
-  display: grid;
-  grid-template-columns: repeat(6, 1fr);
-  gap: 10px;
-}
+    body {
+      margin: 0;
+      font-family:
+        -apple-system,
+        BlinkMacSystemFont,
+        "Segoe UI",
+        "Noto Sans Thai",
+        sans-serif;
 
-.house {
-  background: white;
-  border-radius: 12px;
-  padding: 14px;
-  cursor: pointer;
-  border: 1px solid transparent;
-  transition: .15s;
-}
+      background:
+        var(--cream);
 
-.house:hover {
-  border-color: #111827;
-  transform: translateY(-1px);
-}
+      color:
+        var(--text);
+    }
 
-.house-name {
-  font-weight: 700;
-  font-size: 16px;
-}
+    button,
+    input,
+    select,
+    textarea {
+      font: inherit;
+    }
 
-.house-row {
-  margin-top: 8px;
-  font-size: 12px;
-  color: #64748b;
-}
+    button {
+      cursor: pointer;
+    }
 
-.status {
-  display: inline-block;
-  margin-top: 8px;
-  border-radius: 30px;
-  padding: 5px 9px;
-  font-size: 11px;
-}
+    /* =========================
+       HEADER
+    ========================= */
 
-.status.paid {
-  background: #dcfce7;
-  color: #166534;
-}
+    .header {
+      position: sticky;
+      top: 0;
+      z-index: 50;
 
-.status.due {
-  background: #fee2e2;
-  color: #991b1b;
-}
+      background:
+        linear-gradient(
+          135deg,
+          var(--blue-2),
+          var(--blue)
+        );
 
-.status.review {
-  background: #fef3c7;
-  color: #92400e;
-}
+      color: white;
 
-.status.empty {
-  background: #f1f5f9;
-  color: #64748b;
-}
+      box-shadow:
+        0 4px 20px
+        rgba(0,0,0,.13);
+    }
 
-.detail-panel {
-  display: none;
-  margin-top: 25px;
-  background: white;
-  border-radius: 16px;
-  overflow: hidden;
-  box-shadow: 0 2px 10px rgba(0,0,0,.05);
-}
+    .header-inner {
+      max-width: 1400px;
+      margin: auto;
 
-.detail-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 18px 20px;
-  background: #111827;
-  color: white;
-}
+      padding:
+        15px 22px 0;
+    }
 
-.detail-header h2 { margin: 0; }
+    .brand-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
 
-.close {
-  border: 0;
-  background: white;
-  color: #111827;
-  border-radius: 8px;
-  padding: 8px 12px;
-  cursor: pointer;
-}
+      gap: 15px;
+    }
 
-.table-wrap { overflow-x: auto; }
+    .brand {
+      font-weight: 900;
+      letter-spacing: 1px;
+      font-size: 20px;
+    }
 
-table {
-  width: 100%;
-  border-collapse: collapse;
-  min-width: 1100px;
-}
+    .brand-sub {
+      font-size: 11px;
+      opacity: .72;
+      margin-top: 3px;
+    }
 
-th, td {
-  padding: 10px;
-  border-bottom: 1px solid #e5e7eb;
-  text-align: left;
-  font-size: 13px;
-}
+    .online-pill {
+      display: flex;
+      align-items: center;
+      gap: 7px;
 
-th {
-  background: #f8fafc;
-  white-space: nowrap;
-}
+      font-size: 12px;
 
-.loading {
-  padding: 30px;
-  text-align: center;
-  color: #64748b;
-}
+      padding:
+        7px 11px;
 
-.error {
-  background: #fee2e2;
-  color: #991b1b;
-  border-radius: 10px;
-  padding: 12px;
-  margin-bottom: 15px;
-}
+      border-radius: 999px;
 
-@media (max-width: 1100px) {
-  .dashboard { grid-template-columns: repeat(2, 1fr); }
-  .house-grid { grid-template-columns: repeat(4, 1fr); }
-}
+      background:
+        rgba(255,255,255,.12);
+    }
 
-@media (max-width: 700px) {
-  .dashboard { grid-template-columns: 1fr 1fr; }
-  .house-grid { grid-template-columns: repeat(2, 1fr); }
-}
-</style>
+    .online-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+
+      background:
+        #54e591;
+
+      box-shadow:
+        0 0 0 4px
+        rgba(84,229,145,.13);
+    }
+
+    .nav {
+      display: flex;
+      gap: 5px;
+
+      margin-top: 14px;
+
+      overflow-x: auto;
+
+      scrollbar-width: none;
+    }
+
+    .nav::-webkit-scrollbar {
+      display: none;
+    }
+
+    .nav-btn {
+      white-space: nowrap;
+
+      border: 0;
+
+      color:
+        rgba(255,255,255,.72);
+
+      background:
+        transparent;
+
+      padding:
+        12px 14px;
+
+      border-radius:
+        12px 12px 0 0;
+
+      font-size: 13px;
+      font-weight: 700;
+    }
+
+    .nav-btn.active {
+      color: var(--blue-2);
+      background: var(--cream);
+    }
+
+    /* =========================
+       MAIN
+    ========================= */
+
+    .container {
+      max-width: 1400px;
+      margin: auto;
+
+      padding:
+        22px;
+    }
+
+    .page {
+      display: none;
+    }
+
+    .page.active {
+      display: block;
+    }
+
+    .topbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+
+      gap: 12px;
+
+      margin-bottom: 18px;
+    }
+
+    .page-title {
+      margin: 0;
+
+      font-size: 24px;
+      font-weight: 900;
+      color: var(--blue-2);
+    }
+
+    .page-subtitle {
+      margin-top: 5px;
+
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    .actions {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .btn {
+      border: 0;
+
+      padding:
+        10px 14px;
+
+      border-radius:
+        12px;
+
+      font-weight: 800;
+      font-size: 13px;
+
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 7px;
+
+      transition: .2s;
+    }
+
+    .btn:hover {
+      transform:
+        translateY(-1px);
+    }
+
+    .btn-primary {
+      color: white;
+      background: var(--blue);
+    }
+
+    .btn-light {
+      color: var(--blue);
+      background: white;
+
+      border:
+        1px solid var(--border);
+    }
+
+    .btn-danger {
+      color: var(--red);
+      background: var(--red-bg);
+    }
+
+    /* =========================
+       SUMMARY CARDS
+    ========================= */
+
+    .summary-grid {
+      display: grid;
+
+      grid-template-columns:
+        repeat(5, minmax(0, 1fr));
+
+      gap: 13px;
+
+      margin-bottom: 20px;
+    }
+
+    .summary-card {
+      background: white;
+
+      border-radius:
+        var(--radius);
+
+      padding:
+        18px;
+
+      box-shadow:
+        var(--shadow);
+
+      border:
+        1px solid
+        rgba(20,60,100,.05);
+    }
+
+    .summary-label {
+      color: var(--muted);
+      font-size: 12px;
+      font-weight: 700;
+    }
+
+    .summary-value {
+      margin-top: 8px;
+
+      font-size: 21px;
+      font-weight: 900;
+
+      color: var(--blue-2);
+    }
+
+    .summary-value.red {
+      color: var(--red);
+    }
+
+    .summary-value.orange {
+      color: var(--orange);
+    }
+
+    .summary-value.green {
+      color: var(--green);
+    }
+
+    /* =========================
+       SEARCH
+    ========================= */
+
+    .search-card {
+      background: white;
+
+      padding:
+        12px;
+
+      border-radius:
+        18px;
+
+      box-shadow:
+        var(--shadow);
+
+      display: flex;
+      gap: 9px;
+
+      margin-bottom: 18px;
+    }
+
+    .search-input {
+      flex: 1;
+
+      border: 0;
+      outline: 0;
+
+      background:
+        #f5f7f9;
+
+      border-radius:
+        13px;
+
+      padding:
+        12px 15px;
+
+      min-width: 0;
+    }
+
+    /* =========================
+       HOUSE GRID
+    ========================= */
+
+    .house-grid {
+      display: grid;
+
+      grid-template-columns:
+        repeat(4, minmax(0, 1fr));
+
+      gap: 12px;
+    }
+
+    .house-card {
+      background: white;
+
+      border-radius:
+        17px;
+
+      padding:
+        15px;
+
+      border:
+        1px solid var(--border);
+
+      box-shadow:
+        0 5px 18px
+        rgba(20,40,65,.05);
+
+      cursor: pointer;
+
+      transition: .2s;
+    }
+
+    .house-card:hover {
+      transform:
+        translateY(-2px);
+
+      border-color:
+        #bdd0e6;
+    }
+
+    .house-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+
+      gap: 8px;
+    }
+
+    .house-name {
+      color: var(--blue-2);
+
+      font-weight: 900;
+      font-size: 16px;
+    }
+
+    .status {
+      padding:
+        5px 8px;
+
+      border-radius:
+        999px;
+
+      font-size: 10px;
+      font-weight: 900;
+    }
+
+    .status.paid {
+      color: var(--green);
+      background: var(--green-bg);
+    }
+
+    .status.due {
+      color: var(--red);
+      background: var(--red-bg);
+    }
+
+    .status.review {
+      color: var(--orange);
+      background: var(--orange-bg);
+    }
+
+    .status.empty {
+      color: #687786;
+      background: #eef1f4;
+    }
+
+    .house-amount {
+      margin-top: 13px;
+
+      font-size: 18px;
+      font-weight: 900;
+    }
+
+    .house-meta {
+      margin-top: 7px;
+
+      display: flex;
+      justify-content: space-between;
+      gap: 6px;
+
+      color: var(--muted);
+      font-size: 11px;
+    }
+
+    /* =========================
+       PANEL
+    ========================= */
+
+    .panel {
+      background: white;
+
+      border-radius:
+        var(--radius);
+
+      box-shadow:
+        var(--shadow);
+
+      overflow: hidden;
+    }
+
+    .panel-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+
+      gap: 12px;
+
+      padding:
+        17px 18px;
+
+      border-bottom:
+        1px solid var(--border);
+    }
+
+    .panel-title {
+      font-size: 16px;
+      font-weight: 900;
+
+      color: var(--blue-2);
+    }
+
+    /* =========================
+       TABLE
+    ========================= */
+
+    .table-wrap {
+      overflow-x: auto;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+
+      min-width: 1200px;
+    }
+
+    th {
+      background:
+        #f7f9fb;
+
+      color:
+        #607080;
+
+      font-size: 11px;
+
+      padding:
+        12px 10px;
+
+      text-align: left;
+
+      border-bottom:
+        1px solid var(--border);
+
+      white-space: nowrap;
+    }
+
+    td {
+      padding:
+        11px 10px;
+
+      font-size: 12px;
+
+      border-bottom:
+        1px solid #edf0f2;
+
+      white-space: nowrap;
+    }
+
+    tr:hover td {
+      background:
+        #fbfcfd;
+    }
+
+    .money {
+      text-align: right;
+      font-variant-numeric:
+        tabular-nums;
+    }
+
+    .edit-btn {
+      border: 0;
+
+      color: var(--blue);
+      background: var(--blue-light);
+
+      font-weight: 900;
+      font-size: 11px;
+
+      padding:
+        7px 9px;
+
+      border-radius:
+        9px;
+    }
+
+    /* =========================
+       DETAIL HEADER
+    ========================= */
+
+    .detail-summary {
+      display: grid;
+
+      grid-template-columns:
+        repeat(4, minmax(0,1fr));
+
+      gap: 10px;
+
+      padding:
+        15px 18px;
+
+      background:
+        #fafbfc;
+
+      border-bottom:
+        1px solid var(--border);
+    }
+
+    .mini-card {
+      background: white;
+
+      border:
+        1px solid var(--border);
+
+      border-radius:
+        13px;
+
+      padding:
+        12px;
+    }
+
+    .mini-label {
+      color: var(--muted);
+      font-size: 10px;
+    }
+
+    .mini-value {
+      margin-top: 5px;
+
+      font-size: 16px;
+      font-weight: 900;
+    }
+
+    /* =========================
+       ISSUE LIST
+    ========================= */
+
+    .issue-list {
+      display: grid;
+      gap: 10px;
+    }
+
+    .issue-card {
+      background: white;
+
+      border-radius:
+        16px;
+
+      padding:
+        15px;
+
+      box-shadow:
+        var(--shadow);
+
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+
+      gap: 12px;
+    }
+
+    .issue-name {
+      font-weight: 900;
+      color: var(--blue-2);
+    }
+
+    .issue-text {
+      margin-top: 4px;
+
+      color: var(--muted);
+      font-size: 12px;
+    }
+
+    /* =========================
+       MODAL
+    ========================= */
+
+    .modal {
+      position: fixed;
+      inset: 0;
+
+      z-index: 100;
+
+      background:
+        rgba(15,31,48,.55);
+
+      display: none;
+
+      align-items:
+        flex-end;
+
+      justify-content:
+        center;
+
+      padding:
+        16px;
+    }
+
+    .modal.show {
+      display: flex;
+    }
+
+    .modal-card {
+      width: 100%;
+      max-width: 700px;
+
+      max-height:
+        92vh;
+
+      overflow-y: auto;
+
+      background: white;
+
+      border-radius:
+        24px 24px 16px 16px;
+
+      box-shadow:
+        0 20px 60px
+        rgba(0,0,0,.25);
+    }
+
+    .modal-head {
+      position: sticky;
+      top: 0;
+
+      background: white;
+
+      z-index: 2;
+
+      padding:
+        17px 18px;
+
+      border-bottom:
+        1px solid var(--border);
+
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .modal-title {
+      font-weight: 900;
+      color: var(--blue-2);
+    }
+
+    .close-btn {
+      border: 0;
+      background: #f0f2f4;
+
+      width: 34px;
+      height: 34px;
+
+      border-radius: 50%;
+
+      font-size: 17px;
+    }
+
+    .form-body {
+      padding:
+        18px;
+    }
+
+    .form-grid {
+      display: grid;
+
+      grid-template-columns:
+        repeat(2, minmax(0,1fr));
+
+      gap: 13px;
+    }
+
+    .field {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .field.full {
+      grid-column:
+        1 / -1;
+    }
+
+    label {
+      color:
+        #5a6978;
+
+      font-size: 11px;
+      font-weight: 800;
+    }
+
+    .input {
+      width: 100%;
+
+      border:
+        1px solid
+        #dce2e7;
+
+      border-radius:
+        12px;
+
+      padding:
+        11px 12px;
+
+      outline: none;
+
+      background: white;
+    }
+
+    .input:focus {
+      border-color:
+        #7aa1ca;
+
+      box-shadow:
+        0 0 0 3px
+        rgba(53,104,156,.09);
+    }
+
+    textarea.input {
+      min-height: 90px;
+      resize: vertical;
+    }
+
+    .formula-box {
+      background:
+        #f4f6f8;
+
+      border:
+        1px dashed
+        #cdd4da;
+
+      border-radius:
+        13px;
+
+      padding:
+        12px;
+
+      color:
+        #6d7882;
+
+      font-size: 11px;
+
+      line-height: 1.6;
+
+      margin-top: 14px;
+    }
+
+    .modal-actions {
+      position: sticky;
+      bottom: 0;
+
+      background: white;
+
+      border-top:
+        1px solid var(--border);
+
+      padding:
+        13px 18px;
+
+      display: flex;
+      gap: 9px;
+    }
+
+    .modal-actions .btn {
+      flex: 1;
+    }
+
+    /* =========================
+       LOADING
+    ========================= */
+
+    .loading {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+
+      padding:
+        55px 15px;
+
+      color: var(--muted);
+
+      gap: 12px;
+    }
+
+    .spinner {
+      width: 30px;
+      height: 30px;
+
+      border-radius: 50%;
+
+      border:
+        3px solid #d9e1e8;
+
+      border-top-color:
+        var(--blue);
+
+      animation:
+        spin .8s linear infinite;
+    }
+
+    @keyframes spin {
+      to {
+        transform:
+          rotate(360deg);
+      }
+    }
+
+    .empty-state {
+      text-align: center;
+
+      padding:
+        40px 20px;
+
+      color:
+        var(--muted);
+    }
+
+    .toast {
+      position: fixed;
+
+      left: 50%;
+      bottom: 22px;
+
+      transform:
+        translateX(-50%);
+
+      z-index: 200;
+
+      background:
+        #17283b;
+
+      color: white;
+
+      border-radius:
+        999px;
+
+      padding:
+        10px 16px;
+
+      font-size: 12px;
+
+      box-shadow:
+        0 8px 30px
+        rgba(0,0,0,.2);
+
+      opacity: 0;
+      pointer-events: none;
+
+      transition: .25s;
+    }
+
+    .toast.show {
+      opacity: 1;
+    }
+
+    /* =========================
+       RESPONSIVE
+    ========================= */
+
+    @media (max-width: 1100px) {
+
+      .summary-grid {
+        grid-template-columns:
+          repeat(3, minmax(0,1fr));
+      }
+
+      .house-grid {
+        grid-template-columns:
+          repeat(3, minmax(0,1fr));
+      }
+
+    }
+
+    @media (max-width: 760px) {
+
+      .header-inner {
+        padding:
+          13px 14px 0;
+      }
+
+      .container {
+        padding:
+          14px;
+      }
+
+      .topbar {
+        align-items:
+          flex-start;
+
+        flex-direction:
+          column;
+      }
+
+      .page-title {
+        font-size: 21px;
+      }
+
+      .actions {
+        width: 100%;
+      }
+
+      .actions .btn {
+        flex: 1;
+      }
+
+      .summary-grid {
+        grid-template-columns:
+          repeat(2, minmax(0,1fr));
+
+        gap: 9px;
+      }
+
+      .summary-card {
+        padding:
+          14px;
+      }
+
+      .summary-value {
+        font-size: 18px;
+      }
+
+      .house-grid {
+        grid-template-columns:
+          repeat(2, minmax(0,1fr));
+
+        gap: 9px;
+      }
+
+      .house-card {
+        padding:
+          13px;
+      }
+
+      .detail-summary {
+        grid-template-columns:
+          repeat(2, minmax(0,1fr));
+      }
+
+      .form-grid {
+        grid-template-columns:
+          1fr;
+      }
+
+      .field.full {
+        grid-column:
+          auto;
+      }
+
+      .modal {
+        padding: 0;
+      }
+
+      .modal-card {
+        max-height:
+          96vh;
+
+        border-radius:
+          24px 24px 0 0;
+      }
+
+    }
+
+    @media (max-width: 420px) {
+
+      .house-grid {
+        grid-template-columns:
+          1fr 1fr;
+      }
+
+      .house-name {
+        font-size: 14px;
+      }
+
+      .house-amount {
+        font-size: 15px;
+      }
+
+      .nav-btn {
+        padding:
+          11px 10px;
+      }
+
+    }
+
+  </style>
 </head>
 
 <body>
 
-<header>
-  <h1>TMV Service Management</h1>
-  <p>ระบบตรวจสอบค่าน้ำ ค่าไฟ และค่าบริการรายบ้าน</p>
-</header>
+  <!-- =========================
+       HEADER
+  ========================== -->
 
-<div class="container">
+  <header class="header">
 
-  <div id="errorBox" class="error" style="display:none"></div>
+    <div class="header-inner">
 
-  <div class="dashboard">
-    <div class="card">
-      <div class="card-label">ยอดวางบิล</div>
-      <div id="totalBill" class="card-value">-</div>
+      <div class="brand-row">
+
+        <div>
+
+          <div class="brand">
+            TMV SERVICE
+          </div>
+
+          <div class="brand-sub">
+            ระบบจัดการค่าบริการรายเดือน
+          </div>
+
+        </div>
+
+
+        <div class="online-pill">
+
+          <span class="online-dot"></span>
+
+          <span>
+            Online
+          </span>
+
+        </div>
+
+      </div>
+
+
+      <nav class="nav">
+
+        <button
+          class="nav-btn active"
+          data-page="dashboard"
+        >
+          Dashboard
+        </button>
+
+        <button
+          class="nav-btn"
+          data-page="houses"
+        >
+          รายบ้าน
+        </button>
+
+        <button
+          class="nav-btn"
+          data-page="issues"
+        >
+          ค้างชำระ / ตรวจสอบ
+        </button>
+
+      </nav>
+
     </div>
 
-    <div class="card">
-      <div class="card-label">ยอดรับแล้ว</div>
-      <div id="totalPaid" class="card-value">-</div>
+  </header>
+
+
+  <main class="container">
+
+
+    <!-- =========================
+         DASHBOARD
+    ========================== -->
+
+    <section
+      id="page-dashboard"
+      class="page active"
+    >
+
+      <div class="topbar">
+
+        <div>
+
+          <h1 class="page-title">
+            Dashboard
+          </h1>
+
+          <div class="page-subtitle">
+            ภาพรวมค่าบริการ TMV1–TMV88
+          </div>
+
+        </div>
+
+
+        <div class="actions">
+
+          <button
+            class="btn btn-light"
+            onclick="refreshAll()"
+          >
+            ↻ รีเฟรชข้อมูล
+          </button>
+
+          <button
+            class="btn btn-primary"
+            onclick="exportExcel()"
+          >
+            ⇩ Export Excel
+          </button>
+
+        </div>
+
+      </div>
+
+
+      <div
+        id="summaryCards"
+        class="summary-grid"
+      ></div>
+
+
+      <div class="search-card">
+
+        <input
+          id="dashboardSearch"
+          class="search-input"
+          type="search"
+          placeholder="ค้นหาบ้าน เช่น TMV16"
+          oninput="renderDashboardHouses()"
+        >
+
+      </div>
+
+
+      <div
+        id="dashboardHouseGrid"
+        class="house-grid"
+      ></div>
+
+    </section>
+
+
+    <!-- =========================
+         HOUSES
+    ========================== -->
+
+    <section
+      id="page-houses"
+      class="page"
+    >
+
+      <div class="topbar">
+
+        <div>
+
+          <h1 class="page-title">
+            รายบ้าน
+          </h1>
+
+          <div class="page-subtitle">
+            เลือกบ้านเพื่อดูรายละเอียดและบันทึกข้อมูล
+          </div>
+
+        </div>
+
+      </div>
+
+
+      <div class="search-card">
+
+        <input
+          id="houseSearch"
+          class="search-input"
+          type="search"
+          placeholder="ค้นหา TMV1 - TMV88"
+          oninput="renderHouseList()"
+        >
+
+      </div>
+
+
+      <div
+        id="houseList"
+        class="house-grid"
+      ></div>
+
+
+      <div
+        id="houseDetail"
+        style="margin-top:18px;"
+      ></div>
+
+    </section>
+
+
+    <!-- =========================
+         ISSUES
+    ========================== -->
+
+    <section
+      id="page-issues"
+      class="page"
+    >
+
+      <div class="topbar">
+
+        <div>
+
+          <h1 class="page-title">
+            ค้างชำระ / ตรวจสอบ
+          </h1>
+
+          <div class="page-subtitle">
+            บ้านที่ต้องติดตาม
+          </div>
+
+        </div>
+
+      </div>
+
+
+      <div
+        id="issueList"
+        class="issue-list"
+      ></div>
+
+    </section>
+
+
+  </main>
+
+
+  <!-- =========================
+       EDIT MODAL
+  ========================== -->
+
+  <div
+    id="editModal"
+    class="modal"
+  >
+
+    <div class="modal-card">
+
+
+      <div class="modal-head">
+
+        <div>
+
+          <div
+            id="modalTitle"
+            class="modal-title"
+          >
+            บันทึกข้อมูล
+          </div>
+
+        </div>
+
+
+        <button
+          class="close-btn"
+          onclick="closeModal()"
+        >
+          ×
+        </button>
+
+      </div>
+
+
+      <div class="form-body">
+
+        <div class="form-grid">
+
+
+          <div class="field">
+
+            <label>
+              บ้าน
+            </label>
+
+            <input
+              id="fHouse"
+              class="input"
+              disabled
+            >
+
+          </div>
+
+
+          <div class="field">
+
+            <label>
+              เดือน
+            </label>
+
+            <input
+              id="fMonth"
+              class="input"
+              disabled
+            >
+
+          </div>
+
+
+          <div class="field">
+
+            <label>
+              ค่าไฟ
+            </label>
+
+            <input
+              id="fElectric"
+              class="input"
+              type="number"
+              step="0.01"
+            >
+
+          </div>
+
+
+          <div class="field">
+
+            <label>
+              ค่าน้ำ
+            </label>
+
+            <input
+              id="fWater"
+              class="input"
+              type="number"
+              step="0.01"
+            >
+
+          </div>
+
+
+          <div class="field">
+
+            <label>
+              ดูแลสระ
+            </label>
+
+            <input
+              id="fPool"
+              class="input"
+              type="number"
+              step="0.01"
+            >
+
+          </div>
+
+
+          <div class="field">
+
+            <label>
+              ทำความสะอาด
+            </label>
+
+            <input
+              id="fCleaning"
+              class="input"
+              type="number"
+              step="0.01"
+            >
+
+          </div>
+
+
+          <div class="field">
+
+            <label>
+              เข้า - ออก
+            </label>
+
+            <input
+              id="fAccess"
+              class="input"
+              type="number"
+              step="0.01"
+            >
+
+          </div>
+
+
+          <div class="field">
+
+            <label>
+              ซักผ้า
+            </label>
+
+            <input
+              id="fLaundry"
+              class="input"
+              type="number"
+              step="0.01"
+            >
+
+          </div>
+
+
+          <div class="field">
+
+            <label>
+              อื่น ๆ
+            </label>
+
+            <input
+              id="fOther"
+              class="input"
+              type="number"
+              step="0.01"
+            >
+
+          </div>
+
+
+          <div class="field">
+
+            <label>
+              ยอดรับแล้ว
+            </label>
+
+            <input
+              id="fPaid"
+              class="input"
+              type="number"
+              step="0.01"
+            >
+
+          </div>
+
+
+          <div class="field">
+
+            <label>
+              ตรวจสอบหลักฐาน
+            </label>
+
+            <select
+              id="fVerification"
+              class="input"
+            >
+
+              <option value="">
+                -
+              </option>
+
+              <option value="รอตรวจสอบ">
+                รอตรวจสอบ
+              </option>
+
+              <option value="ตรวจสอบแล้ว">
+                ตรวจสอบแล้ว
+              </option>
+
+            </select>
+
+          </div>
+
+
+          <div class="field">
+
+            <label>
+              วันที่วางบิล
+            </label>
+
+            <input
+              id="fBillDate"
+              class="input"
+              type="date"
+            >
+
+          </div>
+
+
+          <div class="field full">
+
+            <label>
+              หมายเหตุ
+            </label>
+
+            <textarea
+              id="fNote"
+              class="input"
+            ></textarea>
+
+          </div>
+
+
+        </div>
+
+
+        <div class="formula-box">
+
+          ระบบจะไม่แก้ไข
+          <strong>ยอดวางบิล</strong>,
+          <strong>ยอดคงค้าง</strong>
+          และ
+          <strong>สถานะ</strong>
+
+          เพราะทั้ง 3 ช่องคำนวณจากสูตรใน Google Sheet อัตโนมัติ
+
+        </div>
+
+      </div>
+
+
+      <div class="modal-actions">
+
+        <button
+          class="btn btn-light"
+          onclick="closeModal()"
+        >
+          ยกเลิก
+        </button>
+
+        <button
+          id="saveButton"
+          class="btn btn-primary"
+          onclick="saveRecord()"
+        >
+          บันทึกข้อมูล
+        </button>
+
+      </div>
+
+
     </div>
 
-    <div class="card">
-      <div class="card-label">ยอดคงค้าง</div>
-      <div id="totalOutstanding" class="card-value">-</div>
-    </div>
-
-    <div class="card">
-      <div class="card-label">รอตรวจสอบ</div>
-      <div id="totalReview" class="card-value">-</div>
-    </div>
-
-    <div class="card">
-      <div class="card-label">บ้านที่มีคงค้าง</div>
-      <div id="totalDue" class="card-value">-</div>
-    </div>
   </div>
 
-  <div class="toolbar">
-    <input id="searchInput" class="search" type="text" placeholder="ค้นหา เช่น TMV16">
-  </div>
 
-  <div id="houseGrid" class="house-grid">
-    <div class="loading">กำลังโหลดข้อมูล...</div>
-  </div>
+  <div
+    id="toast"
+    class="toast"
+  ></div>
 
-  <section id="detailPanel" class="detail-panel">
-    <div class="detail-header">
-      <h2 id="detailTitle">-</h2>
-      <button class="close" onclick="closeDetail()">ปิด</button>
-    </div>
 
-    <div id="detailContent" class="table-wrap"></div>
-  </section>
+  <script>
 
-</div>
+    /* ==================================================
+       API
+    ================================================== */
 
-<script>
-const API = '/api/transactions';
-let allHouses = {};
+    const API =
+      '/api/transactions';
 
-document.addEventListener('DOMContentLoaded', () => {
-  loadSummary();
 
-  document
-    .getElementById('searchInput')
-    .addEventListener('input', filterHouses);
-});
+    /* ==================================================
+       STATE
+    ================================================== */
 
-async function loadSummary() {
-  clearError();
+    let summaryData = null;
 
-  try {
-    const response = await fetch(API + '?mode=summary', {
-      cache: 'no-store'
-    });
+    let currentHouse = null;
 
-    if (!response.ok) {
-      throw new Error('HTTP ' + response.status);
-    }
+    let currentHouseRows = [];
 
-    const result = await response.json();
-
-    if (!result.ok) {
-      throw new Error(result.error || 'โหลดข้อมูลไม่สำเร็จ');
-    }
-
-    allHouses = result.houses || {};
-    renderDashboard(result.dashboard || {});
-    renderHouses(allHouses);
-
-  } catch (error) {
-    showError('ไม่สามารถโหลดข้อมูลได้: ' + error.message);
-  }
-}
-
-function renderDashboard(d) {
-  setText('totalBill', money(d.bill));
-  setText('totalPaid', money(d.paid));
-  setText('totalOutstanding', money(d.outstanding));
-  setText('totalReview', d.review || 0);
-  setText('totalDue', d.dueHouses || 0);
-}
-
-function renderHouses(houses) {
-  const grid = document.getElementById('houseGrid');
-  grid.innerHTML = '';
-
-  for (let i = 1; i <= 88; i++) {
-    const name = 'TMV' + i;
-    const h = houses[name] || {};
-    const status = h.status || {
-      label: 'ยังไม่มีข้อมูล',
-      cls: 'empty'
+    let editState = {
+      house: '',
+      monthNo: null,
+      row: null
     };
 
-    const div = document.createElement('div');
-    div.className = 'house';
-    div.onclick = () => loadHouse(name);
 
-    div.innerHTML = `
-      <div class="house-name">${name}</div>
-      <div class="house-row">วางบิล: ${money(h.bill)}</div>
-      <div class="house-row">รับแล้ว: ${money(h.paid)}</div>
-      <div class="house-row">คงค้าง: ${money(h.outstanding)}</div>
-      <span class="status ${status.cls}">${status.label}</span>
-    `;
+    /* ==================================================
+       START
+    ================================================== */
 
-    grid.appendChild(div);
-  }
-}
+    document.addEventListener(
+      'DOMContentLoaded',
+      () => {
 
-async function loadHouse(name) {
-  const panel = document.getElementById('detailPanel');
-  const content = document.getElementById('detailContent');
+        bindNavigation();
 
-  document.getElementById('detailTitle').textContent = 'รายละเอียด ' + name;
-  panel.style.display = 'block';
-  content.innerHTML = '<div class="loading">กำลังโหลดข้อมูลบ้าน...</div>';
+        loadSummary();
 
-  panel.scrollIntoView({
-    behavior: 'smooth',
-    block: 'start'
-  });
-
-  try {
-    const response = await fetch(
-      API + '?mode=house&name=' + encodeURIComponent(name),
-      { cache: 'no-store' }
+      }
     );
 
-    if (!response.ok) {
-      throw new Error('HTTP ' + response.status);
+
+    /* ==================================================
+       NAVIGATION
+    ================================================== */
+
+    function bindNavigation() {
+
+      document
+        .querySelectorAll(
+          '.nav-btn'
+        )
+        .forEach(
+          btn => {
+
+            btn.addEventListener(
+              'click',
+              () => {
+
+                const page =
+                  btn.dataset.page;
+
+                showPage(page);
+
+              }
+            );
+
+          }
+        );
+
     }
 
-    const result = await response.json();
 
-    if (!result.ok) {
-      throw new Error(result.error || 'โหลดบ้านไม่สำเร็จ');
+    function showPage(page) {
+
+      document
+        .querySelectorAll(
+          '.nav-btn'
+        )
+        .forEach(
+          b =>
+            b.classList
+              .toggle(
+                'active',
+                b.dataset.page === page
+              )
+        );
+
+
+      document
+        .querySelectorAll(
+          '.page'
+        )
+        .forEach(
+          p =>
+            p.classList
+              .remove('active')
+        );
+
+
+      document
+        .getElementById(
+          'page-' + page
+        )
+        .classList
+        .add('active');
+
+
+      if (page === 'houses') {
+
+        renderHouseList();
+
+      }
+
+
+      if (page === 'issues') {
+
+        renderIssues();
+
+      }
+
     }
 
-    renderHouseTable(result.data || []);
 
-  } catch (error) {
-    content.innerHTML =
-      '<div class="loading">เกิดข้อผิดพลาด: ' +
-      escapeHtml(error.message) +
-      '</div>';
-  }
-}
+    /* ==================================================
+       LOAD SUMMARY
+    ================================================== */
 
-function renderHouseTable(rows) {
-  const content = document.getElementById('detailContent');
+    async function loadSummary() {
 
-  if (!rows.length) {
-    content.innerHTML = '<div class="loading">ยังไม่มีข้อมูล</div>';
-    return;
-  }
+      showSummaryLoading();
 
-  let html = `
-    <table>
-      <thead>
+      try {
+
+        const res =
+          await fetch(
+            API +
+            '?mode=summary&_=' +
+            Date.now(),
+            {
+              cache: 'no-store'
+            }
+          );
+
+
+        const data =
+          await res.json();
+
+
+        if (!res.ok || !data.ok) {
+
+          throw new Error(
+            data.error ||
+            'โหลดข้อมูลไม่สำเร็จ'
+          );
+
+        }
+
+
+        summaryData =
+          data;
+
+
+        renderSummary();
+
+        renderDashboardHouses();
+
+        renderHouseList();
+
+        renderIssues();
+
+
+      } catch (err) {
+
+        showToast(
+          'โหลดข้อมูลไม่สำเร็จ: ' +
+          err.message
+        );
+
+      }
+
+    }
+
+
+    function showSummaryLoading() {
+
+      document.getElementById(
+        'summaryCards'
+      ).innerHTML = `
+
+        <div
+          class="summary-card"
+          style="grid-column:1/-1;"
+        >
+
+          <div class="loading">
+
+            <div class="spinner"></div>
+
+            กำลังโหลดข้อมูล...
+
+          </div>
+
+        </div>
+
+      `;
+
+    }
+
+
+    /* ==================================================
+       SUMMARY CARDS
+    ================================================== */
+
+    function renderSummary() {
+
+      if (!summaryData) {
+        return;
+      }
+
+
+      const d =
+        summaryData.dashboard ||
+        {};
+
+
+      document.getElementById(
+        'summaryCards'
+      ).innerHTML = `
+
+        ${summaryCard(
+          'ยอดวางบิล',
+          money(d.bill)
+        )}
+
+        ${summaryCard(
+          'ยอดรับแล้ว',
+          money(d.paid),
+          'green'
+        )}
+
+        ${summaryCard(
+          'ยอดคงค้าง',
+          money(d.outstanding),
+          'red'
+        )}
+
+        ${summaryCard(
+          'รอตรวจสอบ',
+          numberText(d.review) + ' รายการ',
+          'orange'
+        )}
+
+        ${summaryCard(
+          'บ้านที่มีคงค้าง',
+          numberText(d.dueHouses) + ' หลัง',
+          'red'
+        )}
+
+      `;
+
+    }
+
+
+    function summaryCard(
+      label,
+      value,
+      cls = ''
+    ) {
+
+      return `
+
+        <div class="summary-card">
+
+          <div class="summary-label">
+            ${escapeHtml(label)}
+          </div>
+
+          <div
+            class="summary-value ${cls}"
+          >
+            ${escapeHtml(value)}
+          </div>
+
+        </div>
+
+      `;
+
+    }
+
+
+    /* ==================================================
+       HOUSE CARDS
+    ================================================== */
+
+    function renderDashboardHouses() {
+
+      if (!summaryData) {
+        return;
+      }
+
+
+      const q =
+        document
+          .getElementById(
+            'dashboardSearch'
+          )
+          .value
+          .trim()
+          .toUpperCase();
+
+
+      const houses =
+        getHouseEntries()
+          .filter(
+            ([name]) =>
+              !q ||
+              name.includes(q)
+          );
+
+
+      document.getElementById(
+        'dashboardHouseGrid'
+      ).innerHTML =
+        houses.length
+
+          ? houses
+              .map(
+                ([name, h]) =>
+                  houseCard(
+                    name,
+                    h
+                  )
+              )
+              .join('')
+
+          : emptyHtml(
+              'ไม่พบบ้าน'
+            );
+
+    }
+
+
+    function renderHouseList() {
+
+      if (!summaryData) {
+        return;
+      }
+
+
+      const input =
+        document.getElementById(
+          'houseSearch'
+        );
+
+
+      const q =
+        input
+          ? input.value
+              .trim()
+              .toUpperCase()
+          : '';
+
+
+      const houses =
+        getHouseEntries()
+          .filter(
+            ([name]) =>
+              !q ||
+              name.includes(q)
+          );
+
+
+      document.getElementById(
+        'houseList'
+      ).innerHTML =
+        houses.length
+
+          ? houses
+              .map(
+                ([name, h]) =>
+                  houseCard(
+                    name,
+                    h
+                  )
+              )
+              .join('')
+
+          : emptyHtml(
+              'ไม่พบบ้าน'
+            );
+
+    }
+
+
+    function getHouseEntries() {
+
+      if (
+        !summaryData ||
+        !summaryData.houses
+      ) {
+
+        return [];
+
+      }
+
+
+      return Object
+        .entries(
+          summaryData.houses
+        )
+        .sort(
+          (a, b) =>
+            houseNumber(a[0]) -
+            houseNumber(b[0])
+        );
+
+    }
+
+
+    function houseCard(
+      name,
+      h
+    ) {
+
+      const status =
+        h.status ||
+        {
+          label: 'ยังไม่มีข้อมูล',
+          cls: 'empty'
+        };
+
+
+      return `
+
+        <div
+          class="house-card"
+          onclick="openHouse('${name}')"
+        >
+
+          <div class="house-top">
+
+            <div class="house-name">
+              ${name}
+            </div>
+
+            <div
+              class="status ${status.cls || 'empty'}"
+            >
+              ${escapeHtml(
+                status.label ||
+                'ยังไม่มีข้อมูล'
+              )}
+            </div>
+
+          </div>
+
+
+          <div class="house-amount">
+
+            ${
+              Number(
+                h.outstanding || 0
+              ) > 0
+
+                ? money(
+                    h.outstanding
+                  )
+
+                : money(
+                    h.bill
+                  )
+            }
+
+          </div>
+
+
+          <div class="house-meta">
+
+            <span>
+              วางบิล ${money(h.bill)}
+            </span>
+
+            <span>
+              รับแล้ว ${money(h.paid)}
+            </span>
+
+          </div>
+
+        </div>
+
+      `;
+
+    }
+
+
+    /* ==================================================
+       OPEN HOUSE
+    ================================================== */
+
+    async function openHouse(
+      name
+    ) {
+
+      currentHouse =
+        name;
+
+
+      showPage(
+        'houses'
+      );
+
+
+      const detail =
+        document.getElementById(
+          'houseDetail'
+        );
+
+
+      detail.innerHTML = `
+
+        <div class="panel">
+
+          <div class="loading">
+
+            <div class="spinner"></div>
+
+            กำลังโหลด ${name}...
+
+          </div>
+
+        </div>
+
+      `;
+
+
+      detail.scrollIntoView({
+        behavior: 'smooth',
+        block: 'start'
+      });
+
+
+      try {
+
+        const res =
+          await fetch(
+            API +
+            '?mode=house&name=' +
+            encodeURIComponent(name) +
+            '&_=' +
+            Date.now(),
+            {
+              cache: 'no-store'
+            }
+          );
+
+
+        const data =
+          await res.json();
+
+
+        if (
+          !res.ok ||
+          !data.ok
+        ) {
+
+          throw new Error(
+            data.error ||
+            'โหลดข้อมูลบ้านไม่สำเร็จ'
+          );
+
+        }
+
+
+        currentHouseRows =
+          Array.isArray(
+            data.data
+          )
+            ? data.data
+            : [];
+
+
+        renderHouseDetail();
+
+
+      } catch (err) {
+
+        detail.innerHTML =
+          emptyHtml(
+            err.message
+          );
+
+      }
+
+    }
+
+
+    /* ==================================================
+       HOUSE DETAIL
+    ================================================== */
+
+    function renderHouseDetail() {
+
+      const detail =
+        document.getElementById(
+          'houseDetail'
+        );
+
+
+      const summary =
+        summaryData &&
+        summaryData.houses
+          ? summaryData
+              .houses[
+                currentHouse
+              ]
+          : null;
+
+
+      const rows =
+        currentHouseRows;
+
+
+      detail.innerHTML = `
+
+        <div class="panel">
+
+
+          <div class="panel-head">
+
+            <div>
+
+              <div class="panel-title">
+                ${currentHouse}
+              </div>
+
+              <div class="page-subtitle">
+                รายการเดือน มกราคม - ธันวาคม
+              </div>
+
+            </div>
+
+
+            <button
+              class="btn btn-light"
+              onclick="openHouse('${currentHouse}')"
+            >
+              ↻ รีเฟรช
+            </button>
+
+          </div>
+
+
+          <div class="detail-summary">
+
+            ${miniCard(
+              'ยอดวางบิล',
+              money(
+                summary
+                  ? summary.bill
+                  : 0
+              )
+            )}
+
+            ${miniCard(
+              'ยอดรับแล้ว',
+              money(
+                summary
+                  ? summary.paid
+                  : 0
+              )
+            )}
+
+            ${miniCard(
+              'ยอดคงค้าง',
+              money(
+                summary
+                  ? summary.outstanding
+                  : 0
+              )
+            )}
+
+            ${miniCard(
+              'รอตรวจสอบ',
+              numberText(
+                summary
+                  ? summary.review
+                  : 0
+              )
+            )}
+
+          </div>
+
+
+          <div class="table-wrap">
+
+            <table>
+
+              <thead>
+
+                <tr>
+
+                  <th>
+                    เดือน
+                  </th>
+
+                  <th>
+                    ค่าไฟ
+                  </th>
+
+                  <th>
+                    ค่าน้ำ
+                  </th>
+
+                  <th>
+                    ดูแลสระ
+                  </th>
+
+                  <th>
+                    ทำความสะอาด
+                  </th>
+
+                  <th>
+                    เข้า-ออก
+                  </th>
+
+                  <th>
+                    ซักผ้า
+                  </th>
+
+                  <th>
+                    อื่น ๆ
+                  </th>
+
+                  <th>
+                    วางบิล
+                  </th>
+
+                  <th>
+                    รับแล้ว
+                  </th>
+
+                  <th>
+                    คงค้าง
+                  </th>
+
+                  <th>
+                    สถานะ
+                  </th>
+
+                  <th>
+                    หมายเหตุ
+                  </th>
+
+                  <th>
+                    ตรวจสอบ
+                  </th>
+
+                  <th>
+                    วันที่วางบิล
+                  </th>
+
+                  <th>
+                    จัดการ
+                  </th>
+
+                </tr>
+
+              </thead>
+
+              <tbody>
+
+                ${
+                  rows
+                    .map(
+                      (r, i) =>
+                        renderMonthRow(
+                          r,
+                          i
+                        )
+                    )
+                    .join('')
+                }
+
+              </tbody>
+
+            </table>
+
+          </div>
+
+        </div>
+
+      `;
+
+    }
+
+
+    function renderMonthRow(
+      r,
+      index
+    ) {
+
+      const monthNo =
+        index + 1;
+
+
+      return `
+
         <tr>
-          <th>เดือน</th>
-          <th>ค่าไฟ</th>
-          <th>ค่าน้ำ</th>
-          <th>ดูแลสระ</th>
-          <th>ทำความสะอาด</th>
-          <th>เข้า–ออก</th>
-          <th>ซักผ้า</th>
-          <th>อื่นๆ</th>
-          <th>วางบิล</th>
-          <th>รับแล้ว</th>
-          <th>คงค้าง</th>
-          <th>สถานะ</th>
-          <th>หมายเหตุ</th>
-          <th>ตรวจสอบหลักฐาน</th>
-          <th>วันที่วางบิล</th>
+
+          <td>
+            <strong>
+              ${escapeHtml(
+                r.month || ''
+              )}
+            </strong>
+          </td>
+
+          <td class="money">
+            ${moneyCell(r.electric)}
+          </td>
+
+          <td class="money">
+            ${moneyCell(r.water)}
+          </td>
+
+          <td class="money">
+            ${moneyCell(r.pool)}
+          </td>
+
+          <td class="money">
+            ${moneyCell(r.cleaning)}
+          </td>
+
+          <td class="money">
+            ${moneyCell(r.access)}
+          </td>
+
+          <td class="money">
+            ${moneyCell(r.laundry)}
+          </td>
+
+          <td class="money">
+            ${moneyCell(r.other)}
+          </td>
+
+          <td class="money">
+            <strong>
+              ${moneyCell(r.bill)}
+            </strong>
+          </td>
+
+          <td class="money">
+            ${moneyCell(r.paid)}
+          </td>
+
+          <td class="money">
+            <strong>
+              ${moneyCell(
+                r.outstanding
+              )}
+            </strong>
+          </td>
+
+          <td>
+            ${statusBadge(
+              r.status
+            )}
+          </td>
+
+          <td>
+            ${escapeHtml(
+              r.note || '-'
+            )}
+          </td>
+
+          <td>
+            ${escapeHtml(
+              r.verification ||
+              '-'
+            )}
+          </td>
+
+          <td>
+            ${escapeHtml(
+              r.billDate || '-'
+            )}
+          </td>
+
+          <td>
+
+            <button
+              class="edit-btn"
+              onclick="openEdit(${monthNo})"
+            >
+              แก้ไข
+            </button>
+
+          </td>
+
         </tr>
-      </thead>
-      <tbody>
-  `;
 
-  rows.forEach(r => {
-    html += `
-      <tr>
-        <td>${escapeHtml(r.month)}</td>
-        <td>${moneyOrDash(r.electric)}</td>
-        <td>${moneyOrDash(r.water)}</td>
-        <td>${moneyOrDash(r.pool)}</td>
-        <td>${moneyOrDash(r.cleaning)}</td>
-        <td>${moneyOrDash(r.access)}</td>
-        <td>${moneyOrDash(r.laundry)}</td>
-        <td>${moneyOrDash(r.other)}</td>
-        <td>${moneyOrDash(r.bill)}</td>
-        <td>${moneyOrDash(r.paid)}</td>
-        <td>${moneyOrDash(r.outstanding)}</td>
-        <td>${escapeHtml(r.status || '-')}</td>
-        <td>${escapeHtml(r.note || '-')}</td>
-        <td>${escapeHtml(r.verification || '-')}</td>
-        <td>${escapeHtml(r.billDate || '-')}</td>
-      </tr>
-    `;
-  });
+      `;
 
-  html += `
-      </tbody>
-    </table>
-  `;
-
-  content.innerHTML = html;
-}
-
-function filterHouses() {
-  const q = document
-    .getElementById('searchInput')
-    .value
-    .trim()
-    .toUpperCase();
-
-  if (!q) {
-    renderHouses(allHouses);
-    return;
-  }
-
-  const filtered = {};
-
-  Object.keys(allHouses).forEach(name => {
-    if (name.includes(q)) {
-      filtered[name] = allHouses[name];
     }
-  });
 
-  const grid = document.getElementById('houseGrid');
-  grid.innerHTML = '';
 
-  Object.keys(filtered).forEach(name => {
-    const h = filtered[name];
-    const status = h.status || {
-      label: 'ยังไม่มีข้อมูล',
-      cls: 'empty'
-    };
+    function miniCard(
+      label,
+      value
+    ) {
 
-    const div = document.createElement('div');
-    div.className = 'house';
-    div.onclick = () => loadHouse(name);
+      return `
 
-    div.innerHTML = `
-      <div class="house-name">${name}</div>
-      <div class="house-row">วางบิล: ${money(h.bill)}</div>
-      <div class="house-row">รับแล้ว: ${money(h.paid)}</div>
-      <div class="house-row">คงค้าง: ${money(h.outstanding)}</div>
-      <span class="status ${status.cls}">${status.label}</span>
-    `;
+        <div class="mini-card">
 
-    grid.appendChild(div);
-  });
-}
+          <div class="mini-label">
+            ${escapeHtml(label)}
+          </div>
 
-function closeDetail() {
-  document.getElementById('detailPanel').style.display = 'none';
-}
+          <div class="mini-value">
+            ${escapeHtml(value)}
+          </div>
 
-function money(value) {
-  const n = Number(value || 0);
+        </div>
 
-  return n.toLocaleString('th-TH', {
-    minimumFractionDigits: 2,
-    maximumFractionDigits: 2
-  }) + ' บาท';
-}
+      `;
 
-function moneyOrDash(value) {
-  if (
-    value === null ||
-    value === undefined ||
-    value === ''
-  ) {
-    return '-';
-  }
+    }
 
-  return money(value);
-}
 
-function setText(id, value) {
-  document.getElementById(id).textContent = value;
-}
+    /* ==================================================
+       ISSUES
+    ================================================== */
 
-function showError(text) {
-  const box = document.getElementById('errorBox');
-  box.textContent = text;
-  box.style.display = 'block';
-}
+    function renderIssues() {
 
-function clearError() {
-  document.getElementById('errorBox').style.display = 'none';
-}
+      if (!summaryData) {
+        return;
+      }
 
-function escapeHtml(value) {
-  return String(value ?? '')
-    .replaceAll('&', '&amp;')
-    .replaceAll('<', '&lt;')
-    .replaceAll('>', '&gt;')
-    .replaceAll('"', '&quot;')
-    .replaceAll("'", '&#039;');
-}
-</script>
+
+      const list =
+        getHouseEntries()
+          .filter(
+            ([, h]) =>
+              Number(
+                h.outstanding || 0
+              ) > 0 ||
+              Number(
+                h.review || 0
+              ) > 0
+          );
+
+
+      document.getElementById(
+        'issueList'
+      ).innerHTML =
+        list.length
+
+          ? list
+              .map(
+                ([name, h]) => {
+
+                  const parts = [];
+
+                  if (
+                    Number(
+                      h.outstanding || 0
+                    ) > 0
+                  ) {
+
+                    parts.push(
+                      'คงค้าง ' +
+                      money(
+                        h.outstanding
+                      )
+                    );
+
+                  }
+
+                  if (
+                    Number(
+                      h.review || 0
+                    ) > 0
+                  ) {
+
+                    parts.push(
+                      'รอตรวจสอบ ' +
+                      h.review +
+                      ' รายการ'
+                    );
+
+                  }
+
+
+                  return `
+
+                    <div class="issue-card">
+
+                      <div>
+
+                        <div class="issue-name">
+                          ${name}
+                        </div>
+
+                        <div class="issue-text">
+                          ${parts.join(' • ')}
+                        </div>
+
+                      </div>
+
+                      <button
+                        class="btn btn-light"
+                        onclick="openHouse('${name}')"
+                      >
+                        ดูรายละเอียด
+                      </button>
+
+                    </div>
+
+                  `;
+
+                }
+              )
+              .join('')
+
+          : emptyHtml(
+              'ไม่มีรายการค้างชำระหรือรอตรวจสอบ'
+            );
+
+    }
+
+
+    /* ==================================================
+       EDIT FORM
+    ================================================== */
+
+    function openEdit(
+      monthNo
+    ) {
+
+      const row =
+        currentHouseRows[
+          monthNo - 1
+        ];
+
+
+      if (!row) {
+
+        showToast(
+          'ไม่พบข้อมูลเดือนนี้'
+        );
+
+        return;
+
+      }
+
+
+      editState = {
+
+        house:
+          currentHouse,
+
+        monthNo:
+          monthNo,
+
+        row:
+          row
+
+      };
+
+
+      document.getElementById(
+        'modalTitle'
+      ).textContent =
+        'บันทึกข้อมูล ' +
+        currentHouse;
+
+
+      setValue(
+        'fHouse',
+        currentHouse
+      );
+
+      setValue(
+        'fMonth',
+        row.month
+      );
+
+      setValue(
+        'fElectric',
+        inputValue(
+          row.electric
+        )
+      );
+
+      setValue(
+        'fWater',
+        inputValue(
+          row.water
+        )
+      );
+
+      setValue(
+        'fPool',
+        inputValue(
+          row.pool
+        )
+      );
+
+      setValue(
+        'fCleaning',
+        inputValue(
+          row.cleaning
+        )
+      );
+
+      setValue(
+        'fAccess',
+        inputValue(
+          row.access
+        )
+      );
+
+      setValue(
+        'fLaundry',
+        inputValue(
+          row.laundry
+        )
+      );
+
+      setValue(
+        'fOther',
+        inputValue(
+          row.other
+        )
+      );
+
+      setValue(
+        'fPaid',
+        inputValue(
+          row.paid
+        )
+      );
+
+      setValue(
+        'fNote',
+        row.note || ''
+      );
+
+      setValue(
+        'fVerification',
+        row.verification || ''
+      );
+
+      setValue(
+        'fBillDate',
+        displayDateToInput(
+          row.billDate
+        )
+      );
+
+
+      document
+        .getElementById(
+          'editModal'
+        )
+        .classList
+        .add('show');
+
+    }
+
+
+    function closeModal() {
+
+      document
+        .getElementById(
+          'editModal'
+        )
+        .classList
+        .remove('show');
+
+    }
+
+
+    /* ==================================================
+       SAVE
+    ================================================== */
+
+    async function saveRecord() {
+
+      if (
+        !editState.house ||
+        !editState.monthNo
+      ) {
+
+        return;
+
+      }
+
+
+      const btn =
+        document.getElementById(
+          'saveButton'
+        );
+
+
+      const original =
+        btn.textContent;
+
+
+      btn.disabled = true;
+
+      btn.textContent =
+        'กำลังบันทึก...';
+
+
+      const payload = {
+
+        house:
+          editState.house,
+
+        monthNo:
+          editState.monthNo,
+
+        electric:
+          numberInput(
+            'fElectric'
+          ),
+
+        water:
+          numberInput(
+            'fWater'
+          ),
+
+        pool:
+          numberInput(
+            'fPool'
+          ),
+
+        cleaning:
+          numberInput(
+            'fCleaning'
+          ),
+
+        inOut:
+          numberInput(
+            'fAccess'
+          ),
+
+        laundry:
+          numberInput(
+            'fLaundry'
+          ),
+
+        other:
+          numberInput(
+            'fOther'
+          ),
+
+        paid:
+          numberInput(
+            'fPaid'
+          ),
+
+        note:
+          value(
+            'fNote'
+          ),
+
+        verification:
+          value(
+            'fVerification'
+          ),
+
+        billDate:
+          value(
+            'fBillDate'
+          )
+
+      };
+
+
+      try {
+
+        const res =
+          await fetch(
+            API,
+            {
+
+              method:
+                'POST',
+
+              headers: {
+
+                'Content-Type':
+                  'application/json'
+
+              },
+
+              body:
+                JSON.stringify(
+                  payload
+                )
+
+            }
+          );
+
+
+        const data =
+          await res.json();
+
+
+        if (
+          !res.ok ||
+          !data.ok
+        ) {
+
+          throw new Error(
+            data.error ||
+            'บันทึกไม่สำเร็จ'
+          );
+
+        }
+
+
+        closeModal();
+
+
+        showToast(
+          'บันทึกข้อมูลเรียบร้อย'
+        );
+
+
+        /*
+          โหลด Summary ใหม่
+          เพื่ออัปเดตยอดรวม
+        */
+
+        await loadSummary();
+
+
+        /*
+          โหลดบ้านที่กำลังเปิดใหม่
+        */
+
+        await openHouse(
+          editState.house
+        );
+
+
+      } catch (err) {
+
+        showToast(
+          'บันทึกไม่สำเร็จ: ' +
+          err.message
+        );
+
+
+      } finally {
+
+        btn.disabled = false;
+
+        btn.textContent =
+          original;
+
+      }
+
+    }
+
+
+    /* ==================================================
+       REFRESH
+    ================================================== */
+
+    async function refreshAll() {
+
+      showToast(
+        'กำลังรีเฟรชข้อมูล...'
+      );
+
+      await loadSummary();
+
+      if (currentHouse) {
+
+        await openHouse(
+          currentHouse
+        );
+
+      }
+
+    }
+
+
+    /* ==================================================
+       EXPORT
+    ================================================== */
+
+    function exportExcel() {
+
+      if (!summaryData) {
+        return;
+      }
+
+
+      const rows = [
+
+        [
+          'บ้าน',
+          'ยอดวางบิล',
+          'ยอดรับแล้ว',
+          'ยอดคงค้าง',
+          'รอตรวจสอบ',
+          'สถานะ'
+        ]
+
+      ];
+
+
+      getHouseEntries()
+        .forEach(
+          ([name, h]) => {
+
+            rows.push([
+
+              name,
+
+              h.bill || 0,
+
+              h.paid || 0,
+
+              h.outstanding || 0,
+
+              h.review || 0,
+
+              h.status
+                ? h.status.label
+                : ''
+
+            ]);
+
+          }
+        );
+
+
+      const csv =
+        '\uFEFF' +
+        rows
+          .map(
+            row =>
+              row
+                .map(
+                  csvCell
+                )
+                .join(',')
+          )
+          .join('\n');
+
+
+      const blob =
+        new Blob(
+          [csv],
+          {
+            type:
+              'text/csv;charset=utf-8;'
+          }
+        );
+
+
+      const url =
+        URL.createObjectURL(
+          blob
+        );
+
+
+      const a =
+        document
+          .createElement('a');
+
+
+      a.href =
+        url;
+
+      a.download =
+        'TMV-Service-' +
+        new Date()
+          .toISOString()
+          .slice(0,10) +
+        '.csv';
+
+
+      document.body
+        .appendChild(a);
+
+      a.click();
+
+      a.remove();
+
+
+      URL.revokeObjectURL(
+        url
+      );
+
+    }
+
+
+    /* ==================================================
+       HELPERS
+    ================================================== */
+
+    function houseNumber(
+      name
+    ) {
+
+      return Number(
+        String(name)
+          .replace(
+            'TMV',
+            ''
+          )
+      ) || 0;
+
+    }
+
+
+    function money(
+      value
+    ) {
+
+      const n =
+        Number(value || 0);
+
+
+      return n
+        .toLocaleString(
+          'th-TH',
+          {
+            minimumFractionDigits: 0,
+            maximumFractionDigits: 2
+          }
+        ) +
+        ' ฿';
+
+    }
+
+
+    function moneyCell(
+      value
+    ) {
+
+      if (
+        value === null ||
+        value === undefined ||
+        value === ''
+      ) {
+
+        return '-';
+
+      }
+
+
+      return Number(value)
+        .toLocaleString(
+          'th-TH',
+          {
+            minimumFractionDigits: 0,
+            maximumFractionDigits: 2
+          }
+        );
+
+    }
+
+
+    function numberText(
+      value
+    ) {
+
+      return Number(
+        value || 0
+      )
+        .toLocaleString(
+          'th-TH'
+        );
+
+    }
+
+
+    function statusBadge(
+      status
+    ) {
+
+      const s =
+        String(
+          status || ''
+        );
+
+
+      let cls =
+        'empty';
+
+
+      if (
+        s === 'ชำระแล้ว'
+      ) {
+
+        cls =
+          'paid';
+
+      }
+
+
+      if (
+        s === 'คงค้าง'
+      ) {
+
+        cls =
+          'due';
+
+      }
+
+
+      if (
+        s === 'รอตรวจสอบ'
+      ) {
+
+        cls =
+          'review';
+
+      }
+
+
+      return `
+
+        <span
+          class="status ${cls}"
+        >
+          ${escapeHtml(
+            s || '-'
+          )}
+        </span>
+
+      `;
+
+    }
+
+
+    function emptyHtml(
+      text
+    ) {
+
+      return `
+
+        <div
+          class="empty-state"
+          style="grid-column:1/-1;"
+        >
+          ${escapeHtml(text)}
+        </div>
+
+      `;
+
+    }
+
+
+    function escapeHtml(
+      value
+    ) {
+
+      return String(
+        value ?? ''
+      )
+        .replaceAll(
+          '&',
+          '&amp;'
+        )
+        .replaceAll(
+          '<',
+          '&lt;'
+        )
+        .replaceAll(
+          '>',
+          '&gt;'
+        )
+        .replaceAll(
+          '"',
+          '&quot;'
+        )
+        .replaceAll(
+          "'",
+          '&#039;'
+        );
+
+    }
+
+
+    function inputValue(
+      value
+    ) {
+
+      return (
+        value === null ||
+        value === undefined
+      )
+        ? ''
+        : value;
+
+    }
+
+
+    function setValue(
+      id,
+      value
+    ) {
+
+      document
+        .getElementById(id)
+        .value =
+          value ?? '';
+
+    }
+
+
+    function value(
+      id
+    ) {
+
+      return document
+        .getElementById(id)
+        .value
+        .trim();
+
+    }
+
+
+    function numberInput(
+      id
+    ) {
+
+      const raw =
+        document
+          .getElementById(id)
+          .value
+          .trim();
+
+
+      if (raw === '') {
+
+        return '';
+
+      }
+
+
+      const n =
+        Number(raw);
+
+
+      return Number.isFinite(n)
+        ? n
+        : '';
+
+    }
+
+
+    function displayDateToInput(
+      date
+    ) {
+
+      if (!date) {
+        return '';
+      }
+
+
+      /*
+        Apps Script ส่งมา:
+        dd/MM/yyyy
+      */
+
+      const m =
+        String(date)
+          .match(
+            /^(\d{2})\/(\d{2})\/(\d{4})$/
+          );
+
+
+      if (!m) {
+
+        /*
+          เผื่อข้อมูลเป็น
+          yyyy-mm-dd อยู่แล้ว
+        */
+
+        if (
+          /^\d{4}-\d{2}-\d{2}$/
+            .test(date)
+        ) {
+
+          return date;
+
+        }
+
+
+        return '';
+
+      }
+
+
+      return (
+        m[3] +
+        '-' +
+        m[2] +
+        '-' +
+        m[1]
+      );
+
+    }
+
+
+    function csvCell(
+      value
+    ) {
+
+      const text =
+        String(
+          value ?? ''
+        );
+
+
+      return (
+        '"' +
+        text
+          .replaceAll(
+            '"',
+            '""'
+          ) +
+        '"'
+      );
+
+    }
+
+
+    let toastTimer;
+
+
+    function showToast(
+      text
+    ) {
+
+      const el =
+        document.getElementById(
+          'toast'
+        );
+
+
+      el.textContent =
+        text;
+
+
+      el.classList
+        .add('show');
+
+
+      clearTimeout(
+        toastTimer
+      );
+
+
+      toastTimer =
+        setTimeout(
+          () => {
+
+            el.classList
+              .remove('show');
+
+          },
+          2800
+        );
+
+    }
+
+
+    /*
+      ปิด Modal
+      เมื่อกดพื้นที่ด้านนอก
+    */
+
+    document
+      .getElementById(
+        'editModal'
+      )
+      .addEventListener(
+        'click',
+        e => {
+
+          if (
+            e.target.id ===
+            'editModal'
+          ) {
+
+            closeModal();
+
+          }
+
+        }
+      );
+
+  </script>
 
 </body>
 </html>
