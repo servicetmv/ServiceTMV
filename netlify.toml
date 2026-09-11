@@ -1,5 +1,5 @@
 [[redirects]]
   from = "/api/tmv"
-  to = "https://script.google.com/macros/s/AKfycbx_iY6gNz5t3BEmS7i9nIHjT5ZlJdG1GwtH4LN1NLDagTrlHJzOT5q9h9q6LpbMfkfXzA/exec"
+  to = "https://script.google.com/macros/s/AKfycbw3DWJjCntG1CRkd5YQSxFSCLPGz-GmWhZaC-bvh1Ykvg67nz0nAEtCtgizWcH9ApI7Kg/exec"
   status = 200
   force = true
