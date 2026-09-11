@@ -3,7 +3,6 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0">
-<meta name="theme-color" content="#17375e">
 
 <title>TMV Service Management</title>
 
@@ -14,7 +13,7 @@
   --navy:#17375e;
   --navy2:#255486;
   --bg:#f4f6f9;
-  --card:#ffffff;
+  --card:#fff;
   --text:#26364a;
   --muted:#7d8998;
   --line:#e5eaf0;
@@ -28,26 +27,14 @@
   --shadow:0 8px 26px rgba(23,55,94,.07);
 }
 
-html{
-  scroll-behavior:smooth;
-}
-
 body{
   margin:0;
   background:var(--bg);
   color:var(--text);
-  font-family:
-    system-ui,
-    -apple-system,
-    "Segoe UI",
-    "Noto Sans Thai",
-    Tahoma,
-    sans-serif;
+  font-family:system-ui,-apple-system,"Segoe UI","Noto Sans Thai",Tahoma,sans-serif;
 }
 
-button,input,select{
-  font:inherit;
-}
+button,input,select{font:inherit}
 
 .app{
   max-width:1180px;
@@ -57,11 +44,7 @@ button,input,select{
 }
 
 header{
-  background:linear-gradient(
-    135deg,
-    var(--navy),
-    var(--navy2)
-  );
+  background:linear-gradient(135deg,var(--navy),var(--navy2));
   color:#fff;
   padding:26px 20px 30px;
   border-radius:0 0 30px 30px;
@@ -108,9 +91,7 @@ h1{
   box-shadow:var(--shadow);
 }
 
-.kpi{
-  padding:17px;
-}
+.kpi{padding:17px}
 
 .kpi-label{
   font-size:13px;
@@ -150,7 +131,6 @@ h1{
   padding:13px 14px;
   border:1px solid var(--line);
   border-radius:13px;
-  outline:none;
   background:#fff;
 }
 
@@ -164,52 +144,24 @@ h1{
   border-radius:13px;
   padding:12px 16px;
   background:var(--navy);
-  color:#fff;
+  color:white;
   font-weight:750;
   cursor:pointer;
-}
-
-.btn2{
-  border:1px solid var(--line);
-  border-radius:13px;
-  padding:10px 14px;
-  background:#fff;
-  color:var(--navy);
-  font-weight:750;
-  cursor:pointer;
-}
-
-.toolbar{
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  margin:22px 0 10px;
-  gap:10px;
-}
-
-.count{
-  font-size:13px;
-  color:var(--muted);
 }
 
 .housegrid{
   display:grid;
   grid-template-columns:repeat(4,1fr);
   gap:10px;
+  margin-top:12px;
 }
 
 .house{
   padding:14px;
-  background:#fff;
+  background:white;
   border:1px solid var(--line);
   border-radius:16px;
   cursor:pointer;
-  transition:.18s;
-}
-
-.house:hover{
-  transform:translateY(-2px);
-  box-shadow:var(--shadow);
 }
 
 .hname{
@@ -223,8 +175,7 @@ h1{
   margin-top:5px;
 }
 
-.chip,
-.status{
+.chip{
   display:inline-block;
   padding:5px 9px;
   border-radius:999px;
@@ -265,109 +216,23 @@ h1{
 
 .notice.success{
   background:var(--greenbg);
-  border-color:#cbead9;
   color:var(--green);
 }
 
 .notice.error{
   background:var(--redbg);
-  border-color:#f0caca;
   color:var(--red);
 }
 
-.noresults{
-  grid-column:1/-1;
-  text-align:center;
-  padding:28px;
-  color:var(--muted);
-}
-
-.loading{
-  text-align:center;
-  padding:30px;
-  color:var(--muted);
-}
-
-#detailPage{
-  display:none;
-}
-
-.detailhead{
+.toolbar{
   display:flex;
   justify-content:space-between;
-  align-items:flex-start;
-  gap:15px;
-  margin-bottom:15px;
+  margin:22px 0 10px;
 }
 
-.detailtitle{
-  font-size:28px;
-  font-weight:900;
-  color:var(--navy);
-}
-
-.detailsub{
+.count{
   font-size:13px;
   color:var(--muted);
-  margin-top:3px;
-}
-
-.grid3{
-  display:grid;
-  grid-template-columns:repeat(3,1fr);
-  gap:12px;
-  margin-bottom:16px;
-}
-
-.tablecard{
-  overflow:hidden;
-}
-
-.tablescroll{
-  overflow:auto;
-}
-
-table{
-  width:100%;
-  min-width:1450px;
-  border-collapse:collapse;
-}
-
-th{
-  background:#f6f8fb;
-  color:#55657a;
-  text-align:left;
-  font-size:12px;
-  padding:12px 10px;
-  border-bottom:1px solid var(--line);
-  white-space:nowrap;
-}
-
-td{
-  padding:12px 10px;
-  border-bottom:1px solid #edf0f3;
-  font-size:13px;
-  white-space:nowrap;
-  vertical-align:top;
-}
-
-td.note{
-  white-space:normal;
-  min-width:260px;
-  max-width:340px;
-}
-
-.footer{
-  text-align:center;
-  color:#9aa4b0;
-  font-size:12px;
-  margin-top:22px;
-}
-
-@media(max-width:980px){
-  .grid5{
-    grid-template-columns:repeat(3,1fr);
-  }
 }
 
 @media(max-width:820px){
@@ -376,29 +241,7 @@ td.note{
   }
 
   .housegrid{
-    grid-template-columns:repeat(3,1fr);
-  }
-}
-
-@media(max-width:560px){
-  h1{
-    font-size:23px;
-  }
-
-  .container{
-    padding:15px;
-  }
-
-  .housegrid{
     grid-template-columns:repeat(2,1fr);
-  }
-
-  .grid3{
-    grid-template-columns:1fr;
-  }
-
-  .detailhead{
-    flex-direction:column;
   }
 }
 </style>
@@ -410,108 +253,48 @@ td.note{
 
 <header>
   <div class="headerin">
-    <div class="eyebrow">
-      THE MODERN VIEW
-    </div>
-
-    <h1>
-      TMV Service Management
-    </h1>
-
+    <div class="eyebrow">THE MODERN VIEW</div>
+    <h1>TMV Service Management</h1>
     <div class="subtitle">
       สรุปค่าน้ำ ค่าไฟ ค่าบริการ และสถานะการชำระ TMV1–TMV88
     </div>
   </div>
 </header>
 
-
-<!-- HOME -->
-<main id="homePage">
-
 <div class="container">
 
-<div
-  id="syncStatus"
-  class="notice"
-  style="margin-top:0"
->
+<div id="syncStatus" class="notice" style="margin-top:0">
   กำลังเชื่อมต่อ Google Sheet...
 </div>
-
 
 <section class="grid5">
 
 <div class="card kpi">
-  <div class="kpi-label">
-    ยอดวางบิลรวม
-  </div>
-
-  <div
-    class="kpi-value navy"
-    id="totalBill"
-  >
-    ฿0
-  </div>
+  <div class="kpi-label">ยอดวางบิลรวม</div>
+  <div class="kpi-value navy" id="totalBill">฿0</div>
 </div>
 
-
 <div class="card kpi">
-  <div class="kpi-label">
-    รับชำระแล้ว
-  </div>
-
-  <div
-    class="kpi-value green"
-    id="totalPaid"
-  >
-    ฿0
-  </div>
+  <div class="kpi-label">รับชำระแล้ว</div>
+  <div class="kpi-value green" id="totalPaid">฿0</div>
 </div>
 
-
 <div class="card kpi">
-  <div class="kpi-label">
-    ยอดคงค้าง/ยังไม่ยืนยัน
-  </div>
-
-  <div
-    class="kpi-value red"
-    id="totalOutstanding"
-  >
-    ฿0
-  </div>
+  <div class="kpi-label">ยอดคงค้าง/ยังไม่ยืนยัน</div>
+  <div class="kpi-value red" id="totalOutstanding">฿0</div>
 </div>
 
-
 <div class="card kpi">
-  <div class="kpi-label">
-    บ้านที่ค้างชำระ
-  </div>
-
-  <div
-    class="kpi-value red"
-    id="totalDueHouses"
-  >
-    0 หลัง
-  </div>
+  <div class="kpi-label">บ้านที่ค้างชำระ</div>
+  <div class="kpi-value red" id="totalDueHouses">0 หลัง</div>
 </div>
 
-
 <div class="card kpi">
-  <div class="kpi-label">
-    รอตรวจสอบ
-  </div>
-
-  <div
-    class="kpi-value yellow"
-    id="totalReview"
-  >
-    0 รายการ
-  </div>
+  <div class="kpi-label">รอตรวจสอบ</div>
+  <div class="kpi-value yellow" id="totalReview">0 รายการ</div>
 </div>
 
 </section>
-
 
 <section class="card searchcard">
 
@@ -521,39 +304,17 @@ td.note{
 
 <div class="searchrow">
 
-<input
-  id="search"
-  placeholder="เช่น TMV16"
->
+<input id="search" placeholder="เช่น TMV16">
 
 <select id="filter">
-
-<option value="all">
-  สถานะทั้งหมด
-</option>
-
-<option value="ชำระแล้ว">
-  ชำระแล้ว
-</option>
-
-<option value="คงค้าง">
-  คงค้าง
-</option>
-
-<option value="รอตรวจสอบ">
-  รอตรวจสอบ
-</option>
-
-<option value="ไม่มีข้อมูล">
-  ยังไม่มีข้อมูล
-</option>
-
+  <option value="all">สถานะทั้งหมด</option>
+  <option value="ชำระแล้ว">ชำระแล้ว</option>
+  <option value="คงค้าง">คงค้าง</option>
+  <option value="รอตรวจสอบ">รอตรวจสอบ</option>
+  <option value="ไม่มีข้อมูล">ยังไม่มีข้อมูล</option>
 </select>
 
-<button
-  class="btn"
-  onclick="renderHouses()"
->
+<button class="btn" onclick="renderHouses()">
   ค้นหา
 </button>
 
@@ -561,267 +322,49 @@ td.note{
 
 </section>
 
-
 <div class="toolbar">
 
-<div
-  class="section-title"
-  style="margin:0"
->
+<div class="section-title" style="margin:0">
   บ้านทั้งหมด
 </div>
 
-<div
-  class="count"
-  id="houseCount"
->
-</div>
+<div class="count" id="houseCount"></div>
 
 </div>
 
-
-<section
-  class="housegrid"
-  id="houseGrid"
->
-  <div class="loading">
-    กำลังโหลดข้อมูล...
-  </div>
+<section class="housegrid" id="houseGrid">
+  กำลังโหลด...
 </section>
-
 
 <div class="notice">
-  ระบบ Live • Google Sheet → Apps Script → Netlify
-</div>
-
-
-<div class="footer">
-  TMV Service Management
-</div>
-
-</div>
-
-</main>
-
-
-<!-- DETAIL -->
-<main id="detailPage">
-
-<div class="container">
-
-<div class="detailhead">
-
-<button
-  class="btn2"
-  onclick="backHome()"
->
-  ← กลับหน้าหลัก
-</button>
-
-<div>
-
-<div
-  class="detailtitle"
-  id="detailTitle"
->
-</div>
-
-<div class="detailsub">
-  รายละเอียดรายเดือนจาก Google Sheet
+  ระบบ Live • Google Sheet → Apps Script
 </div>
 
 </div>
 
 </div>
-
-
-<section class="grid3">
-
-<div class="card kpi">
-
-<div class="kpi-label">
-  ยอดวางบิล
-</div>
-
-<div
-  class="kpi-value navy"
-  id="houseBill"
->
-  ฿0
-</div>
-
-</div>
-
-
-<div class="card kpi">
-
-<div class="kpi-label">
-  รับชำระแล้ว
-</div>
-
-<div
-  class="kpi-value green"
-  id="housePaid"
->
-  ฿0
-</div>
-
-</div>
-
-
-<div class="card kpi">
-
-<div class="kpi-label">
-  ยอดคงค้าง/ยังไม่ยืนยัน
-</div>
-
-<div
-  class="kpi-value red"
-  id="houseOut"
->
-  ฿0
-</div>
-
-</div>
-
-</section>
-
-
-<section class="card tablecard">
-
-<div class="tablescroll">
-
-<table>
-
-<thead>
-
-<tr>
-<th>เดือน</th>
-<th>ค่าไฟ</th>
-<th>ค่าน้ำ</th>
-<th>ดูแลสระ</th>
-<th>ทำความสะอาด</th>
-<th>เข้า–ออก</th>
-<th>ซักผ้า</th>
-<th>อื่น ๆ</th>
-<th>ยอดวางบิล</th>
-<th>ยอดรับ</th>
-<th>คงค้าง</th>
-<th>สถานะ</th>
-<th>หมายเหตุ</th>
-<th>ตรวจสอบหลักฐาน</th>
-<th>วันที่วางบิล</th>
-</tr>
-
-</thead>
-
-<tbody id="detailBody"></tbody>
-
-</table>
-
-</div>
-
-</section>
-
-
-<div class="footer">
-  TMV Service Management
-</div>
-
-</div>
-
-</main>
-
-</div>
-
 
 <script>
 
-/* =========================================
-   NETLIFY PROXY
-========================================= */
-
-const API_URL = "/api/tmv";
+const API_URL =
+  "https://script.google.com/macros/s/AKfycbw3DWJjCntG1CRkd5YQSxFSCLPGz-GmWhZaC-bvh1Ykvg67nz0nAEtCtgizWcH9ApI7Kg/exec";
 
 const HOUSES =
   Array.from(
     {length:88},
-    (_,i) => "TMV" + (i + 1)
+    (_,i) => "TMV" + (i+1)
   );
 
 let SUMMARY = {};
 let DASHBOARD = {};
-let HOUSE_CACHE = {};
 
 
-/* =========================================
-   API
-========================================= */
+function money(v){
 
-async function apiGet(params = {}) {
-
-  const qs =
-    new URLSearchParams(params);
-
-  const response =
-    await fetch(
-      API_URL + "?" + qs.toString(),
-      {
-        method:"GET",
-        cache:"no-store"
-      }
-    );
-
-  if(!response.ok){
-
-    throw new Error(
-      "HTTP " + response.status
-    );
-
-  }
-
-  const text =
-    await response.text();
-
-  try{
-
-    return JSON.parse(text);
-
-  }catch(error){
-
-    console.error(
-      "API RESPONSE:",
-      text
-    );
-
-    throw new Error(
-      "API ไม่ได้ส่งข้อมูล JSON กลับมา"
-    );
-
-  }
-
-}
-
-
-/* =========================================
-   UTILITIES
-========================================= */
-
-function money(value){
-
-  if(
-    value === null ||
-    value === undefined ||
-    value === ""
-  ){
-    return "-";
-  }
-
-  const n =
-    Number(value);
+  const n = Number(v);
 
   if(!Number.isFinite(n)){
-    return "-";
+    return "฿0";
   }
 
   return "฿" +
@@ -831,29 +374,10 @@ function money(value){
         maximumFractionDigits:2
       }
     );
-
 }
 
 
-function display(value){
-
-  if(
-    value === null ||
-    value === undefined ||
-    value === ""
-  ){
-    return "-";
-  }
-
-  return String(value);
-
-}
-
-
-function setStatus(
-  message,
-  type = ""
-){
+function setStatus(message,type=""){
 
   const el =
     document.getElementById(
@@ -866,45 +390,32 @@ function setStatus(
   el.className =
     "notice" +
     (type ? " " + type : "");
-
 }
 
-
-function statusClass(status){
-
-  if(status === "ชำระแล้ว"){
-    return "paid";
-  }
-
-  if(status === "คงค้าง"){
-    return "due";
-  }
-
-  if(status === "รอตรวจสอบ"){
-    return "review";
-  }
-
-  return "empty";
-
-}
-
-
-/* =========================================
-   LOAD SUMMARY
-========================================= */
 
 async function loadSummary(){
 
-  setStatus(
-    "กำลังเชื่อมต่อ Google Sheet..."
-  );
-
   try{
 
+    const response =
+      await fetch(
+        API_URL + "?mode=summary",
+        {
+          method:"GET",
+          cache:"no-store"
+        }
+      );
+
+    if(!response.ok){
+
+      throw new Error(
+        "HTTP " + response.status
+      );
+
+    }
+
     const data =
-      await apiGet({
-        mode:"summary"
-      });
+      await response.json();
 
     if(
       !data ||
@@ -914,7 +425,7 @@ async function loadSummary(){
       throw new Error(
         data && data.error
           ? data.error
-          : "ข้อมูลจาก API ไม่ถูกต้อง"
+          : "ข้อมูลไม่ถูกต้อง"
       );
 
     }
@@ -929,45 +440,14 @@ async function loadSummary(){
 
     renderHouses();
 
-    let message =
-      "เชื่อมต่อ Google Sheet สำเร็จ";
-
-    if(data.updatedAt){
-
-      const date =
-        new Date(
-          data.updatedAt
-        );
-
-      if(!isNaN(date)){
-
-        message +=
-          " • " +
-          date.toLocaleString(
-            "th-TH"
-          );
-
-      }
-
-    }
-
     setStatus(
-      message,
+      "เชื่อมต่อ Google Sheet สำเร็จ",
       "success"
     );
 
   }catch(error){
 
-    console.error(
-      "TMV API ERROR:",
-      error
-    );
-
-    SUMMARY = {};
-    DASHBOARD = {};
-
-    updateDashboard();
-    renderHouses();
+    console.error(error);
 
     setStatus(
       "เชื่อมต่อ Google Sheet ไม่สำเร็จ: " +
@@ -975,14 +455,10 @@ async function loadSummary(){
       "error"
     );
 
+    renderHouses();
   }
-
 }
 
-
-/* =========================================
-   DASHBOARD
-========================================= */
 
 function updateDashboard(){
 
@@ -1022,13 +498,8 @@ function updateDashboard(){
       DASHBOARD.review || 0
     ) +
     " รายการ";
-
 }
 
-
-/* =========================================
-   HOUSE SUMMARY
-========================================= */
 
 function getHouseSummary(name){
 
@@ -1039,9 +510,6 @@ function getHouseSummary(name){
       bill:0,
       paid:0,
       outstanding:0,
-      review:0,
-      due:false,
-
       status:{
         label:"ยังไม่มีข้อมูล",
         cls:"empty",
@@ -1049,17 +517,12 @@ function getHouseSummary(name){
       }
     }
   );
-
 }
 
 
-/* =========================================
-   RENDER HOUSES
-========================================= */
-
 function renderHouses(){
 
-  const search =
+  const q =
     document
       .getElementById("search")
       .value
@@ -1077,24 +540,24 @@ function renderHouses(){
       const info =
         getHouseSummary(name);
 
-      const state =
+      const status =
         info.status || {
           key:"ไม่มีข้อมูล"
         };
 
-      const searchMatch =
-        name.includes(search);
-
-      const filterMatch =
-        filter === "all" ||
-        state.key === filter;
-
       return (
-        searchMatch &&
-        filterMatch
+        name.includes(q) &&
+        (
+          filter === "all" ||
+          status.key === filter
+        )
       );
-
     });
+
+  const grid =
+    document.getElementById(
+      "houseGrid"
+    );
 
   document.getElementById(
     "houseCount"
@@ -1102,28 +565,14 @@ function renderHouses(){
     list.length +
     " หลัง";
 
-  const grid =
-    document.getElementById(
-      "houseGrid"
-    );
-
   grid.innerHTML = "";
-
-  if(!list.length){
-
-    grid.innerHTML =
-      '<div class="noresults">ไม่พบบ้านตามเงื่อนไข</div>';
-
-    return;
-
-  }
 
   list.forEach(name => {
 
     const info =
       getHouseSummary(name);
 
-    const state =
+    const status =
       info.status || {
         label:"ยังไม่มีข้อมูล",
         cls:"empty"
@@ -1147,24 +596,15 @@ function renderHouses(){
         รายการที่มีข้อมูล
       </div>
 
-      <span class="chip ${state.cls || "empty"}">
-        ${state.label || "ยังไม่มีข้อมูล"}
+      <span class="chip ${status.cls || "empty"}">
+        ${status.label || "ยังไม่มีข้อมูล"}
       </span>
     `;
 
-    card.onclick =
-      () => openHouse(name);
-
     grid.appendChild(card);
-
   });
-
 }
 
-
-/* =========================================
-   SEARCH EVENTS
-========================================= */
 
 document
   .getElementById("search")
@@ -1180,287 +620,6 @@ document
     renderHouses
   );
 
-
-/* =========================================
-   OPEN HOUSE
-========================================= */
-
-async function openHouse(name){
-
-  document.getElementById(
-    "homePage"
-  ).style.display =
-    "none";
-
-  document.getElementById(
-    "detailPage"
-  ).style.display =
-    "block";
-
-  document.getElementById(
-    "detailTitle"
-  ).textContent =
-    name;
-
-  const summary =
-    getHouseSummary(name);
-
-  document.getElementById(
-    "houseBill"
-  ).textContent =
-    money(
-      summary.bill || 0
-    );
-
-  document.getElementById(
-    "housePaid"
-  ).textContent =
-    money(
-      summary.paid || 0
-    );
-
-  document.getElementById(
-    "houseOut"
-  ).textContent =
-    money(
-      summary.outstanding || 0
-    );
-
-  const tbody =
-    document.getElementById(
-      "detailBody"
-    );
-
-  tbody.innerHTML = `
-    <tr>
-      <td colspan="15">
-        <div class="loading">
-          กำลังโหลดรายละเอียด ${name}...
-        </div>
-      </td>
-    </tr>
-  `;
-
-  window.scrollTo({
-    top:0,
-    behavior:"smooth"
-  });
-
-  try{
-
-    let rows =
-      HOUSE_CACHE[name];
-
-    if(!rows){
-
-      const data =
-        await apiGet({
-          mode:"house",
-          name:name
-        });
-
-      if(
-        !data ||
-        data.ok !== true
-      ){
-
-        throw new Error(
-          data && data.error
-            ? data.error
-            : "โหลดข้อมูลบ้านไม่สำเร็จ"
-        );
-
-      }
-
-      rows =
-        Array.isArray(
-          data.data
-        )
-          ? data.data
-          : [];
-
-      HOUSE_CACHE[name] =
-        rows;
-
-    }
-
-    renderHouseRows(
-      rows
-    );
-
-  }catch(error){
-
-    console.error(
-      "HOUSE API ERROR:",
-      error
-    );
-
-    tbody.innerHTML = `
-      <tr>
-        <td colspan="15">
-          <div
-            class="loading"
-            style="color:#d45151"
-          >
-            โหลดรายละเอียดไม่สำเร็จ:
-            ${display(error.message)}
-          </div>
-        </td>
-      </tr>
-    `;
-
-  }
-
-}
-
-
-/* =========================================
-   HOUSE TABLE
-========================================= */
-
-function renderHouseRows(rows){
-
-  const tbody =
-    document.getElementById(
-      "detailBody"
-    );
-
-  tbody.innerHTML = "";
-
-  if(!rows.length){
-
-    tbody.innerHTML = `
-      <tr>
-        <td colspan="15">
-          <div class="loading">
-            ยังไม่มีข้อมูล
-          </div>
-        </td>
-      </tr>
-    `;
-
-    return;
-
-  }
-
-  rows.forEach(row => {
-
-    const tr =
-      document.createElement(
-        "tr"
-      );
-
-    const state =
-      row.status ||
-      row.verification ||
-      "";
-
-    tr.innerHTML = `
-
-      <td>
-        ${display(row.month)}
-      </td>
-
-      <td>
-        ${money(row.electric)}
-      </td>
-
-      <td>
-        ${money(row.water)}
-      </td>
-
-      <td>
-        ${money(row.pool)}
-      </td>
-
-      <td>
-        ${money(row.cleaning)}
-      </td>
-
-      <td>
-        ${money(row.access)}
-      </td>
-
-      <td>
-        ${money(row.laundry)}
-      </td>
-
-      <td>
-        ${money(row.other)}
-      </td>
-
-      <td>
-        <b>
-          ${money(row.bill)}
-        </b>
-      </td>
-
-      <td>
-        ${money(row.paid)}
-      </td>
-
-      <td>
-        ${money(row.outstanding)}
-      </td>
-
-      <td>
-        ${
-          state
-            ? `<span class="status ${statusClass(state)}">${display(state)}</span>`
-            : "-"
-        }
-      </td>
-
-      <td class="note">
-        ${display(row.note)}
-      </td>
-
-      <td>
-        ${display(row.verification)}
-      </td>
-
-      <td>
-        ${display(row.billDate)}
-      </td>
-
-    `;
-
-    tbody.appendChild(
-      tr
-    );
-
-  });
-
-}
-
-
-/* =========================================
-   BACK
-========================================= */
-
-function backHome(){
-
-  document.getElementById(
-    "detailPage"
-  ).style.display =
-    "none";
-
-  document.getElementById(
-    "homePage"
-  ).style.display =
-    "block";
-
-  window.scrollTo({
-    top:0,
-    behavior:"smooth"
-  });
-
-}
-
-
-/* =========================================
-   START
-========================================= */
 
 loadSummary();
 
