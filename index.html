@@ -145,6 +145,31 @@ body.tl-small-only #tlWaterBill {break-before:auto;page-break-before:auto;}
  body.tl-printing #tlPreview .tl-bill:not([hidden]):last-child{break-after:auto;page-break-after:auto}
 }
 
+
+/* TMV invoice footer restoration. Only affects the new invoice page and document. */
+#page-billing .tmv-payment-editor{background:#fbfcfe;border-color:#cbd7e6!important}
+#page-billing .tmv-payment-editor input[type="file"]{font-size:12px;max-width:100%;padding:8px 10px}
+#page-billing .tmv-payment-actions{display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin-top:14px}
+.tl-bill .tmv-payment-small{margin-top:5mm;min-height:31mm;padding:2.5mm;gap:4mm;border-top:1px solid #ddd;align-items:flex-start}
+.tl-bill .tmv-payment-small .tl-proof-text{flex:1;min-width:0;font-size:10px;line-height:1.5}
+.tl-bill .tmv-bank-line{display:flow-root;margin:3mm 0 1mm;font-size:10px}
+.tl-bill .tmv-bank-logo{width:13mm;height:13mm;float:left;object-fit:contain;margin:0 2mm 1mm 0}
+.tl-bill .tmv-qr{width:30mm;flex:0 0 30mm;margin:0;padding:1mm;background:white;text-align:center;break-inside:avoid}
+.tl-bill .tmv-qr img{display:block;width:100%;height:auto;max-height:35mm;object-fit:contain}
+.tl-bill .tmv-qr figcaption{font-size:9px;line-height:1.25;margin-top:1mm;color:#444}
+.tl-bill .tmv-proof-instruction{margin:2mm 0 1mm;font-size:10px}
+.tl-bill .tmv-payment-note{margin:2mm 0 1mm;font-size:9px}
+.tl-bill .tmv-payment-missing{font-size:10px;background:#fffaf2;border:1px dashed #d4b996;padding:2mm;margin:2mm 0}
+.tl-bill .tmv-deadline{color:#b62430;text-align:right;margin-top:3mm!important;font-size:10px;line-height:1.35;clear:both}
+.tl-bill .tmv-payment-large{margin-top:5mm;display:flow-root;break-inside:avoid;page-break-inside:avoid;padding-top:4mm}
+.tl-bill .tmv-payment-large .tmv-qr{float:right;margin-left:4mm;margin-bottom:2mm}
+.tl-bill .tmv-payment-large .tmv-bank-line{margin-top:3mm}
+.tl-bill .tmv-payment-large .tmv-deadline{margin-top:4mm!important}
+.tl-water-card footer{border-top:0;clear:both;padding-top:4mm}
+@media print{
+ .tl-bill .tmv-payment-small,.tl-bill .tmv-payment-large,.tl-bill .tmv-qr{break-inside:avoid;page-break-inside:avoid}
+}
+
 </style>
 </head>
 <body>
@@ -231,7 +256,25 @@ body.tl-small-only #tlWaterBill {break-before:auto;page-break-before:auto;}
 
 <fieldset id="tlElectricFields" disabled="" hidden=""><legend>ใบแจ้งค่าไฟฟ้า — ยอดแยกจากบิลใหญ่และบิลน้ำ</legend>
 <p class="tl-help">กรอกข้อมูลได้เลย เลือกบ้านและเดือนให้ครบก่อนออกบิล ใช้ชื่อลูกค้าและวันที่ออกเอกสารร่วมกัน ยอดค่าไฟนี้ไม่บวกซ้ำเข้าในบิลใหญ่ ดึงยอดค่าไฟจากชีตมาให้ ค่าบริการเริ่มต้น 0 เพื่อไม่บวกซ้ำ หากแก้ยอดแล้วกดโหลดล่าสุด ระบบจะใช้ยอดจากชีตอีกครั้ง</p><div class="form-grid">
-<div class="field"><label for="tlElectricAccount">หมายเลขผู้ใช้ไฟฟ้า</label><input id="tlElectricAccount" type="text" maxlength="80"></div><div class="field"><label for="tlElectricDoc">เลขที่เอกสารค่าไฟ</label><input id="tlElectricDoc" type="text" required="" maxlength="80"></div><div class="field"><label for="tlElectricPremise">สถานที่ใช้ไฟฟ้า / ที่อยู่</label><input id="tlElectricPremise" type="text" required="" maxlength="240"></div><div class="field"><label for="tlElectricReadDate">วันที่อ่านหน่วย</label><input id="tlElectricReadDate" type="date" required=""></div><div class="field"><label for="tlElectricDue">วันครบกำหนดชำระ</label><input id="tlElectricDue" type="date" required=""></div><div class="field"><label for="tlElectricPrev">เลขอ่านครั้งก่อน</label><input id="tlElectricPrev" type="number" required="" min="0" max="999999999" step="0.001"></div><div class="field"><label for="tlElectricCurrent">เลขอ่านครั้งหลัง</label><input id="tlElectricCurrent" type="number" required="" min="0" max="999999999" step="0.001"></div><div class="field"><label for="tlElectricUsage">จำนวนหน่วยที่ใช้</label><input id="tlElectricUsage" type="text" readonly=""></div><div class="field"><label for="tlElectricAmount">ค่าไฟจากชีต (บาท) — ตรวจสอบและแก้ไขได้</label><input id="tlElectricAmount" type="number" required="" min="0" max="999999999" step="0.01"></div><div class="field"><label for="tlElectricService">ค่าบริการรายเดือน (บาท)</label><input id="tlElectricService" type="number" required="" min="0" max="999999999" step="0.01"></div><div class="field"><label for="tlElectricTotal">รวมค่าไฟฟ้า (บาท)</label><input id="tlElectricTotal" type="text" readonly=""></div><div class="field"><label for="tlElectricContact">ติดต่อสอบถาม</label><input id="tlElectricContact" type="text" maxlength="160"></div></div><div class="field"><label for="tlElectricNote">หมายเหตุ / เงื่อนไขการชำระเงิน</label><textarea id="tlElectricNote" maxlength="2000">กรุณาชำระค่าบริการภายในกำหนด และส่งหลักฐานการชำระเงินผ่าน ช่องทางติดต่อโครงการที่ยืนยันแล้ว</textarea></div></fieldset>   <div class="tl-actions">
+<div class="field"><label for="tlElectricAccount">หมายเลขผู้ใช้ไฟฟ้า</label><input id="tlElectricAccount" type="text" maxlength="80"></div><div class="field"><label for="tlElectricDoc">เลขที่เอกสารค่าไฟ</label><input id="tlElectricDoc" type="text" required="" maxlength="80"></div><div class="field"><label for="tlElectricPremise">สถานที่ใช้ไฟฟ้า / ที่อยู่</label><input id="tlElectricPremise" type="text" required="" maxlength="240"></div><div class="field"><label for="tlElectricReadDate">วันที่อ่านหน่วย</label><input id="tlElectricReadDate" type="date" required=""></div><div class="field"><label for="tlElectricDue">วันครบกำหนดชำระ</label><input id="tlElectricDue" type="date" required=""></div><div class="field"><label for="tlElectricPrev">เลขอ่านครั้งก่อน</label><input id="tlElectricPrev" type="number" required="" min="0" max="999999999" step="0.001"></div><div class="field"><label for="tlElectricCurrent">เลขอ่านครั้งหลัง</label><input id="tlElectricCurrent" type="number" required="" min="0" max="999999999" step="0.001"></div><div class="field"><label for="tlElectricUsage">จำนวนหน่วยที่ใช้</label><input id="tlElectricUsage" type="text" readonly=""></div><div class="field"><label for="tlElectricAmount">ค่าไฟจากชีต (บาท) — ตรวจสอบและแก้ไขได้</label><input id="tlElectricAmount" type="number" required="" min="0" max="999999999" step="0.01"></div><div class="field"><label for="tlElectricService">ค่าบริการรายเดือน (บาท)</label><input id="tlElectricService" type="number" required="" min="0" max="999999999" step="0.01"></div><div class="field"><label for="tlElectricTotal">รวมค่าไฟฟ้า (บาท)</label><input id="tlElectricTotal" type="text" readonly=""></div><div class="field"><label for="tlElectricContact">ติดต่อสอบถาม</label><input id="tlElectricContact" type="text" maxlength="160"></div></div><div class="field"><label for="tlElectricNote">หมายเหตุ / เงื่อนไขการชำระเงิน</label><textarea id="tlElectricNote" maxlength="2000">กรุณาชำระค่าบริการภายในกำหนด และส่งหลักฐานการชำระเงินผ่าน ช่องทางติดต่อโครงการที่ยืนยันแล้ว</textarea></div></fieldset>
+   <!-- TMV footer settings: presentation only; no Sheet/Apps Script writes -->
+   <fieldset id="tmvPaymentFields" class="tmv-payment-editor">
+    <legend>ข้อมูลท้ายบิลของโครงการ TMV (แสดงในบิลทั้ง 3 แบบ)</legend>
+    <p class="tl-help">กรอกข้อมูลบัญชีและช่องทางรับชำระของ <b>TMV เท่านั้น</b> ระบบจะไม่ใช้บัญชีหรือ QR จาก TL อัตโนมัติ</p>
+    <div class="form-grid">
+     <div class="field"><label for="tmvBankName">ชื่อธนาคาร</label><input id="tmvBankName" maxlength="120" placeholder="ชื่อธนาคารของโครงการ TMV"></div>
+     <div class="field"><label for="tmvBankBranch">สาขา (ถ้ามี)</label><input id="tmvBankBranch" maxlength="140" placeholder="เช่น สาขาหัวหิน"></div>
+     <div class="field"><label for="tmvAccountName">ชื่อบัญชีผู้รับเงิน</label><input id="tmvAccountName" maxlength="200" placeholder="ระบุชื่อบัญชีที่ตรวจสอบแล้ว"></div>
+     <div class="field"><label for="tmvAccountNo">เลขที่บัญชี</label><input id="tmvAccountNo" maxlength="60" autocomplete="off" placeholder="กรอกเลขที่บัญชี TMV"></div>
+     <div class="field"><label for="tmvLineContact">LINE / ช่องทางส่งหลักฐาน</label><input id="tmvLineContact" maxlength="160" placeholder="LINE OA หรือเบอร์ติดต่อของ TMV"></div>
+     <div class="field"><label for="tmvPaymentDays">กำหนดชำระภายใน (วัน)</label><input id="tmvPaymentDays" type="number" min="1" max="365" value="7"></div>
+     <div class="field"><label for="tmvBankLogoFile">รูปโลโก้ธนาคาร (ถ้ามี)</label><input id="tmvBankLogoFile" type="file" accept="image/png,image/jpeg,image/webp"></div>
+     <div class="field"><label for="tmvQrFile">รูป QR ของ LINE โครงการ TMV (ถ้ามี)</label><input id="tmvQrFile" type="file" accept="image/png,image/jpeg,image/webp"></div>
+     <div class="field full"><label for="tmvPaymentNote">หมายเหตุเพิ่มเติมท้ายบิล</label><textarea id="tmvPaymentNote" maxlength="1000" rows="2" placeholder="รายละเอียดติดต่อ หรือเงื่อนไขการชำระที่ยืนยันกับโครงการแล้ว"></textarea></div>
+    </div>
+    <div class="tmv-payment-actions"><button type="button" class="btn btn-light" id="tmvPaymentSave">บันทึกข้อมูลท้ายบิลในเบราว์เซอร์นี้</button><span class="tl-help">ไม่บันทึกลง Google Sheets และใช้ได้เฉพาะเบราว์เซอร์ที่บันทึก</span></div>
+   </fieldset>
+   <div class="tl-actions">
     <button id="tlReload" type="button" class="btn btn-light">โหลดค่าใช้จ่ายล่าสุด</button>
     <button id="tlPreviewButton" type="submit" class="btn btn-primary" disabled="">ดูตัวอย่างบิล</button>
     <button id="tlPrint" type="button" class="btn btn-primary" disabled="">พิมพ์ / Save PDF บิลที่เลือก</button>
@@ -515,10 +558,7 @@ function tlRenderPreview(event) {
   <div class="tl-terms"><p>จึงเรียนมาเพื่อโปรดทราบและดำเนินการชำระเงินตามรายละเอียดข้างต้น กรุณาตรวจสอบยอดและวันครบกำหนดกับฝ่ายบริการโครงการ และส่งหลักฐานการชำระเงินผ่านช่องทางที่โครงการยืนยัน</p>
   <p>Please review the charges above and confirm the due date and payment instructions with the project service team before making payment.</p></div>
   <div class="tl-sign">ขอแสดงความนับถือ / Best Regards<div class="tl-sign-line"></div><div>ผู้ออกบิล: ${E(valueOf('tlIssuer').trim())}</div><small>(ส่วนบริการลูกค้าสัมพันธ์ / เจ้าหน้าที่บัญชีการเงิน)<br>Customer Relations Division / Accounting Officer</small></div>
-  <div class="tl-payment"><b>ช่องทางการชำระเงิน / PAYMENT INFORMATION</b>
-   <p>กรุณาติดต่อฝ่ายบริการโครงการเพื่อยืนยันชื่อบัญชี เลขที่บัญชี และช่องทางส่งหลักฐานการชำระเงินก่อนโอนเงิน</p>
-   <p>Please confirm bank account information with THE MODERN VIEW project before making a transfer.</p>
-  </div>`;
+  ${tmvPaymentBlock('large')}`;
  el('tlBill').hidden=!large;
  if(!large) el('tlBill').innerHTML='';
  document.body.classList.toggle('tl-small-only',!large);
@@ -671,12 +711,88 @@ function tlSelectBills() {
  el('tlPreviewButton').disabled=!tlCanPreview();
 }
 
-function tlUtilityPayment() {
- return `<div class="tl-proof"><div class="tl-proof-text"><b>การชำระเงิน / PAYMENT</b><p>โปรดยืนยันบัญชีธนาคารและช่องทางชำระเงินกับฝ่ายบริการ THE MODERN VIEW ก่อนโอนเงิน</p><p>Please confirm the account details with the project service team.</p></div></div>`;
+// Payment/QR sections are document-only. No communication with the Sheet.
+const TMV_PAYMENT_KEYS=['tmvBankName','tmvBankBranch','tmvAccountName','tmvAccountNo','tmvLineContact','tmvPaymentDays','tmvPaymentNote'];
+const TMV_PAYMENT_STORAGE='TMV_SERVICE_PAYMENT_FOOTER_v1';
+let tmvPaymentLogo='';
+let tmvPaymentQr='';
+function tmvPayE(value){return escapeHtml(value||'');}
+function tmvPaymentValue(id){return document.getElementById(id)?.value?.trim()||'';}
+function tmvBankDetails(){
+ const name=tmvPaymentValue('tmvBankName'),branch=tmvPaymentValue('tmvBankBranch');
+ const holder=tmvPaymentValue('tmvAccountName'),no=tmvPaymentValue('tmvAccountNo');
+ if(!name||!holder||!no) return '<p class="tmv-payment-missing"><b>ข้อมูลบัญชีรับชำระยังไม่ได้ระบุ</b><br>กรุณาติดต่อฝ่ายบริการ THE MODERN VIEW เพื่อยืนยันบัญชีก่อนโอนเงิน<br><small>Please confirm the account details with THE MODERN VIEW before transfer.</small></p>';
+ const logo=tmvPaymentLogo?`<img class="tmv-bank-logo" src="${tmvPaymentLogo}" alt="โลโก้ธนาคาร">`:'';
+ return `<p class="tl-bank-account tmv-bank-line">${logo}<b>${tmvPayE(name)}</b>${branch?' · '+tmvPayE(branch):''}<br>ชื่อบัญชี: <b>${tmvPayE(holder)}</b><br>เลขที่บัญชี: <b>${tmvPayE(no)}</b></p>`;
+}
+function tmvLineProof(){
+ const line=tmvPaymentValue('tmvLineContact');
+ const label=line?`ส่งหลักฐานการชำระเงินผ่าน ${tmvPayE(line)}`:'กรุณาติดต่อฝ่ายบริการโครงการเพื่อส่งหลักฐานการชำระเงิน';
+ return `<p class="tmv-proof-instruction">${label}</p>`;
+}
+function tmvProofQr(){
+ if(!tmvPaymentQr)return '';
+ return `<figure class="tl-proof-qr tmv-qr"><img src="${tmvPaymentQr}" alt="QR สำหรับส่งหลักฐานการชำระเงินของ TMV"><figcaption>สแกน QR เพื่อส่งหลักฐาน<br>การชำระเงิน</figcaption></figure>`;
+}
+function tmvPaymentTerms(){
+ const days=Number(tmvPaymentValue('tmvPaymentDays'));
+ const deadline=Number.isInteger(days)&&days>0&&days<=365?`ภายใน ${days} วันนับจากวันที่ออกใบแจ้งหนี้`:'ภายในกำหนดที่โครงการแจ้ง';
+ const english=Number.isInteger(days)&&days>0&&days<=365?`WITHIN ${days} DAYS FROM THE INVOICE DATE`:'BY THE CONFIRMED DUE DATE';
+ return `<p class="tmv-deadline">โปรดชำระเงิน${deadline}<br>PLEASE MAKE PAYMENT ${english}</p>`;
+}
+function tmvPaymentNote(){const note=tmvPaymentValue('tmvPaymentNote');return note?`<p class="tmv-payment-note">หมายเหตุ: ${tmvPayE(note)}</p>`:'';}
+function tmvPaymentBlock(mode='small'){
+ if(mode==='large'){
+  return `<div class="tl-payment tmv-payment-large"><b>ท่านสามารถชำระเงินได้ผ่านช่องทางดังนี้ / Please make payment by:</b>${tmvProofQr()}
+   ${tmvBankDetails()}${tmvLineProof()}${tmvPaymentNote()}${tmvPaymentTerms()}</div>`;
+ }
+ return `<div class="tl-proof tmv-payment-small"><div class="tl-proof-text"><b>การชำระเงิน / PAYMENT</b>
+ ${tmvBankDetails()}${tmvLineProof()}${tmvPaymentNote()}</div>${tmvProofQr()}</div>`;
+}
+function tlUtilityPayment(){return tmvPaymentBlock('small');}
+function tmvFooterPreviewInvalidate(){tlInvalidate();}
+function tmvFooterImage(id,which){
+ const file=document.getElementById(id)?.files?.[0];
+ if(!file){if(which==='logo')tmvPaymentLogo='';else tmvPaymentQr='';tmvFooterPreviewInvalidate();return;}
+ if(!['image/png','image/jpeg','image/webp'].includes(file.type)){
+  tlMessage('รองรับรูป PNG, JPG หรือ WebP เท่านั้น',true);document.getElementById(id).value='';return;
+ }
+ if(file.size>2*1024*1024){tlMessage('ไฟล์รูปต้องไม่เกิน 2 MB',true);document.getElementById(id).value='';return;}
+ const reader=new FileReader();
+ reader.onload=()=>{
+  if(typeof reader.result!=='string'||!reader.result.startsWith('data:image/'))return;
+  if(which==='logo')tmvPaymentLogo=reader.result;else tmvPaymentQr=reader.result;
+  tmvFooterPreviewInvalidate();
+  tlMessage('เพิ่มรูปท้ายบิลเรียบร้อย กรุณากดดูตัวอย่างบิลอีกครั้ง');
+ };
+ reader.onerror=()=>tlMessage('อ่านไฟล์รูปไม่สำเร็จ',true);
+ reader.readAsDataURL(file);
+}
+function tmvSavePaymentFooter(){
+ try{
+  const values={};for(const id of TMV_PAYMENT_KEYS)values[id]=tmvPaymentValue(id);
+  // Do not store QR/bank logo in the browser: they can be large and sensitive to sharing.
+  localStorage.setItem(TMV_PAYMENT_STORAGE,JSON.stringify(values));
+  tlMessage('บันทึกข้อมูลข้อความท้ายบิลในเบราว์เซอร์นี้แล้ว (รูปภาพต้องเลือกใหม่เมื่อเปิดเว็บไซต์อีกครั้ง)');
+ }catch(error){tlMessage('ไม่สามารถบันทึกในเบราว์เซอร์นี้ได้ กรุณากรอกใหม่เมื่อเปิดเว็บไซต์',true);}
+}
+function tmvLoadPaymentFooter(){
+ try{
+  const values=JSON.parse(localStorage.getItem(TMV_PAYMENT_STORAGE)||'{}');
+  if(values&&typeof values==='object')for(const id of TMV_PAYMENT_KEYS){
+   if(Object.prototype.hasOwnProperty.call(values,id)&&typeof values[id]==='string')document.getElementById(id).value=values[id];
+  }
+ }catch(error){/* Private browsing may block localStorage. Use form defaults. */}
 }
 
 
+
 function tmvBillingSetup(){
+ tmvLoadPaymentFooter();
+ for(const id of TMV_PAYMENT_KEYS)el(id).addEventListener('input',tmvFooterPreviewInvalidate);
+ el('tmvPaymentSave').addEventListener('click',tmvSavePaymentFooter);
+ el('tmvBankLogoFile').addEventListener('change',()=>tmvFooterImage('tmvBankLogoFile','logo'));
+ el('tmvQrFile').addEventListener('change',()=>tmvFooterImage('tmvQrFile','qr'));
  el('tlHouse').insertAdjacentHTML('beforeend',HOUSE_NAMES.map(h=>`<option value="${h}">${h}</option>`).join(''));
  const now=new Date();
  el('tlMonth').value=String(now.getMonth()+1);
