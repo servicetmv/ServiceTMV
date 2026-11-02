@@ -22,6 +22,103 @@
 .bill-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}.bill-box{background:#fff;border:1px solid var(--border);border-radius:16px;padding:18px;margin-bottom:15px}.bill-help{color:var(--muted);font-size:12px;line-height:1.7}.bill-actions{display:flex;gap:9px;flex-wrap:wrap;margin-top:15px}.bill-print{display:none}.bill-sheet{max-width:800px;margin:auto;background:#fff;padding:28px;color:#222;font-size:14px}.bill-sheet h2{text-align:center;margin:0 0 8px}.bill-sheet table{min-width:0}.bill-sheet td,.bill-sheet th{font-size:13px}.bill-sheet .bill-right{text-align:right}.bill-sheet .bill-total{font-weight:900;font-size:18px;text-align:right;margin-top:18px}
 @media(max-width:760px){.bill-grid{grid-template-columns:1fr}}
 @media print{body *{visibility:hidden!important}.bill-print,.bill-print *{visibility:visible!important}.bill-print{display:block!important;position:absolute;top:0;left:0;width:100%;background:#fff}.bill-sheet{padding:15mm;max-width:none}.bill-sheet table{width:100%;min-width:0}.header,.container,.toast{display:none!important}@page{size:A4;margin:0}}
+
+#pageBilling .tl-form {padding:22px;}
+#pageBilling .tl-help {font-size:13px;color:#675b60;margin:10px 0;}
+#pageBilling .tl-status {padding:12px 0;white-space:pre-wrap;}
+#pageBilling .tl-status[data-error="true"] {color:#a01830;}
+#pageBilling .tl-actions {display:flex;gap:10px;flex-wrap:wrap;margin-top:16px;}
+#pageBilling button:disabled {opacity:.5;cursor:not-allowed;}
+#tlPreview {overflow:auto;padding:16px;background:#e9e5e3;}
+#tlPreview[hidden] {display:none;}
+.tl-bill {box-sizing:border-box;width:210mm;min-height:297mm;margin:auto;padding:12mm;background:white;color:#111;font:12px/1.4 Tahoma,Arial,sans-serif;overflow-wrap:anywhere;}
+.tl-bill * {box-sizing:border-box;}
+.tl-bill h2 {font-size:17px;margin:0 0 4px;}
+.tl-bill h3 {font-size:15px;margin:0;}
+.tl-bill p {margin:5px 0;}
+.tl-bill small {font-size:10px;}
+.tl-bill .tl-header {display:grid;grid-template-columns:1fr 1.25fr;gap:16px;border-bottom:2px solid #333;padding-bottom:12px;}
+.tl-bill .tl-title {text-align:right;}
+.tl-bill .tl-meta {margin-top:14px;font-size:12px;}
+.tl-bill .tl-recipient {padding:9px 0;}
+.tl-bill table {width:100%;min-width:0;border-collapse:collapse;table-layout:fixed;font-size:12px;}
+.tl-bill th,.tl-bill td {padding:3px 6px;border-bottom:1px solid #ddd;color:#111;background:white;white-space:normal;text-align:left;}
+.tl-bill th {background:#f2eeee;border-top:1px solid #888;}
+.tl-bill th:first-child,.tl-bill td:first-child {width:9%;text-align:center;}
+.tl-bill th:last-child,.tl-bill td:last-child {width:23%;text-align:right;}
+.tl-bill .tl-total {text-align:right;font-weight:bold;border-top:2px solid #333;padding:8px 0;}
+.tl-bill .tl-words {background:#ffdfa3;padding:8px;font-weight:bold;}
+.tl-bill .tl-notes {white-space:pre-wrap;}
+.tl-bill .tl-terms,.tl-bill .tl-payment {font-size:10px;line-height:1.4;}
+.tl-bill .tl-sign {text-align:center;width:60%;margin:14px 0 12px auto;break-inside:avoid;}
+.tl-bill .tl-sign-line {margin:24px auto 5px;border-bottom:1px dotted #555;width:70%;height:1px;}
+.tl-bill .tl-payment {border-top:1px solid #aaa;padding-top:7px;}
+.tl-bill tr,.tl-bill .tl-total,.tl-bill .tl-words {break-inside:avoid;}
+@page tl-invoice {size:A4 portrait;margin:12mm;}
+@media print {
+ body.tl-printing {background:#fff!important;}
+ body.tl-printing > :not(main),body.tl-printing main > :not(#pageBilling),body.tl-printing #pageBilling > :not(#tlPreview) {display:none!important;}
+ body.tl-printing main.container {width:auto;max-width:none;margin:0;padding:0;}
+ body.tl-printing #pageBilling,body.tl-printing #tlPreview {display:block!important;padding:0;margin:0;background:#fff;overflow:visible;}
+ body.tl-printing .tl-bill {page:tl-invoice;width:100%;min-height:0;margin:0;padding:0;box-shadow:none;print-color-adjust:exact;-webkit-print-color-adjust:exact;}
+}
+
+#tlWaterFields {border:1px solid #ddd;border-radius:10px;padding:18px;margin:18px 0;}
+#tlWaterFields:disabled {opacity:.55;}
+#tlWaterBill[hidden] {display:none!important;}
+#tlWaterFields legend {font-weight:bold;padding:0 8px;}
+.tl-water-page {margin-top:20px;}
+.tl-water-card {border:1px solid #444;font-size:12px;}
+.tl-water-card header {display:grid;grid-template-columns:1fr 1.5fr;gap:12px;padding:12px;}
+.tl-water-card .tl-water-meta {text-align:right;}
+.tl-water-card .tl-water-customer {padding:10px;border-top:1px solid #444;}
+.tl-water-card table th,.tl-water-card table td {width:auto!important;text-align:center!important;border:1px solid #555;padding:6px 3px;font-size:11px;}
+.tl-water-card table th {background:#ffc600;}
+.tl-water-card .tl-water-words {padding:10px;background:#fff3ca;}
+.tl-water-card footer {padding:10px;color:#b51c2e;text-align:right;font-size:11px;}
+@media print {body.tl-printing .tl-water-page {break-before:page;page-break-before:always;margin:0;} .tl-water-card {break-inside:avoid;}}
+
+#tlElectricFields {border:1px solid #bdd3e3;border-radius:10px;padding:18px;margin:18px 0;}
+#tlElectricFields:disabled {opacity:.55;}
+.tl-electric-card {border:1px solid #555;padding:14px;font-size:12px;}
+.tl-electric-card header {display:flex;justify-content:space-between;gap:20px;}
+.tl-electric-card h3,.tl-electric-card table th {background:#cee3f2;color:#172b3a;}
+.tl-electric-card table {margin:16px 0;width:100%;table-layout:fixed;}
+.tl-electric-card table th,.tl-electric-card table td {width:auto!important;text-align:center!important;border:1px solid #777;padding:10px 5px;font-size:11px;overflow-wrap:anywhere;}
+.tl-electric-card small {display:block;font-size:9px;font-weight:normal;}
+.tl-electric-total {display:flex;justify-content:space-between;gap:16px;color:#ae3030;padding:12px;background:#edf5fb;}
+.tl-electric-card p {white-space:pre-wrap;overflow-wrap:anywhere;}
+#tlElectricBill[hidden] {display:none!important;}
+#tlWaterBill,#tlElectricBill {min-height:0;}
+#tlWaterBill {padding-bottom:4mm;}
+#tlElectricBill {padding-top:4mm;}
+@media print {
+ #tlElectricBill {break-before:auto;page-break-before:auto;}
+ body.tl-printing #tlWaterBill {padding-bottom:4mm;}
+ body.tl-printing #tlElectricBill {padding-top:4mm;}
+ .tl-electric-card {break-inside:avoid;print-color-adjust:exact;-webkit-print-color-adjust:exact;}
+}
+
+#pageBilling .tl-bill-options {border:1px solid #e8e2e4;padding:10px 12px;margin:8px 0 16px;font-size:13px;border-radius:6px;max-width:520px;}
+#pageBilling .tl-bill-options summary {cursor:pointer;}
+#pageBilling .tl-bill-options[open] label {display:flex;margin-top:8px;}
+#pageBilling .tl-bill-options small {display:block;margin-top:8px;}
+#pageBilling .tl-bill-options label {display:inline-flex;align-items:center;gap:6px;font-size:13px;font-weight:normal;cursor:pointer;padding:4px 0;margin:0;}
+#pageBilling .tl-bill-options input[type="checkbox"] {appearance:auto;-webkit-appearance:checkbox;display:inline-block;position:static;opacity:1;width:16px;height:16px;min-width:16px;margin:0;padding:0;accent-color:#691e2b;}
+#pageBilling .tl-bill-options small {font-size:12px;color:#777;}
+
+
+#tlBill[hidden],#tlWaterFields[hidden],#tlElectricFields[hidden] {display:none!important;}
+
+body.tl-printing main > #pageBilling{display:block!important}
+#pageBilling .tl-form .form-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:13px}
+#pageBilling .tl-form .field input,#pageBilling .tl-form .field select,#pageBilling .tl-form .field textarea{width:100%;border:1px solid #dce2e7;border-radius:12px;padding:11px 12px;background:#fff}
+#pageBilling .tl-form fieldset{border:1px solid #dce2e7;border-radius:12px;padding:16px;margin:18px 0}
+#pageBilling .tl-form legend{font-weight:800;padding:0 8px}
+#pageBilling .tl-form .field.full{grid-column:1/-1}
+#pageBilling .tl-bill-options input{width:16px!important}
+@media(max-width:760px){#pageBilling .tl-form .form-grid{grid-template-columns:1fr}}
+@media print{body.tl-printing .header,body.tl-printing .page:not(#pageBilling),body.tl-printing #pageBilling .tl-form{display:none!important}body.tl-printing #pageBilling,body.tl-printing #tlPreview{display:block!important}body.tl-printing #tlPreview .tl-bill:not([hidden]){break-after:page;page-break-after:always}}
 </style>
 </head>
 <body>
@@ -31,7 +128,7 @@
     <button class="nav-btn active" data-page="dashboard">Dashboard</button>
     <button class="nav-btn" data-page="houses">รายบ้าน</button>
     <button class="nav-btn" data-page="issues">ค้างชำระ / ตรวจสอบ</button>
-    <button class="nav-btn" data-page="billing">ออกบิลค่าน้ำ / ค่าไฟ</button>
+    <button class="nav-btn" data-page="billing">🧾 ออกบิล</button>
   </nav>
 </div></header>
 <main class="container">
@@ -64,36 +161,63 @@
   <div id="issueList" class="issue-list"></div>
 </section>
 
-<section id="page-billing" class="page">
- <div class="topbar"><div><h1 class="page-title">ออกบิลค่าน้ำ / ค่าไฟ</h1><div class="page-subtitle">ดึงยอดค่าใช้จ่ายจากชีตรายบ้าน TMV1–TMV88 (ไม่แก้ไขข้อมูลในชีต)</div></div></div>
- <div class="bill-box">
-  <div class="bill-grid">
-   <div class="field"><label>บ้าน</label><select class="input" id="billHouse"></select></div>
-   <div class="field"><label>เดือนที่ออกบิล</label><select class="input" id="billMonth"></select></div>
-   <div class="field"><label>ปี พ.ศ. (สำหรับแสดงบนบิล)</label><input class="input" type="number" id="billYear" min="2500" max="2700"></div>
-   <div class="field"><label>ประเภทบิล</label><select class="input" id="billType"><option value="water">ใบแจ้งค่าน้ำประปา</option><option value="electric">ใบแจ้งค่าไฟฟ้า</option></select></div>
-   <div class="field"><label>ชื่อลูกค้า / ผู้รับบิล</label><input class="input" id="billCustomer" placeholder="กรอกชื่อผู้รับบิล"></div>
-   <div class="field"><label>เลขที่เอกสาร</label><input class="input" id="billNumber" placeholder="กรอกเลขที่บิล"></div>
-   <div class="field"><label>วันที่ออกบิล</label><input class="input" type="date" id="billDate"></div>
-   <div class="field"><label>วันครบกำหนดชำระ</label><input class="input" type="date" id="billDueDate"></div>
-  </div>
-  <div class="bill-actions"><button class="btn btn-primary" id="billLoadButton" onclick="loadBillExpense()">↻ ดึงยอดจากชีตรายบ้าน</button><span id="billLoadStatus" class="bill-help" role="status"></span></div>
+<!-- TL original billing -->
+<section id="pageBilling" class="page">
+ <div class="panel tl-form">
+  <h2>🧾 ออกบิล THE MODERN VIEW</h2>
+  <p class="tl-help">เลือกเดือนและบ้านเพื่ออ่านค่าใช้จ่ายเดิม กรอกข้อมูลเอกสาร แล้วดูตัวอย่างก่อนพิมพ์</p>
+  <form id="tlBillingForm">
+   <details class="tl-bill-options">
+    <summary id="tlSelectionLabel">เลือกประเภทบิล: ยังไม่เลือก</summary>
+    <label for="tlLargeInclude"><input type="checkbox" id="tlLargeInclude" checked=""> บิลใหญ่ / ค่าใช้จ่ายรายเดือน</label>
+    <label for="tlWaterInclude"><input type="checkbox" id="tlWaterInclude"> ออกบิลค่าน้ำด้วย</label>
+    <label for="tlElectricInclude"><input type="checkbox" id="tlElectricInclude"> ออกบิลค่าไฟด้วย</label>
+    <small>ไม่เลือก ไม่ต้องกรอกหรือพิมพ์ส่วนนั้น</small>
+   </details>
+   <div class="form-grid">
+    <div class="field"><label for="tlMonth">ประจำเดือน</label><select id="tlMonth" required=""><option value="1">มกราคม</option><option value="2">กุมภาพันธ์</option><option value="3">มีนาคม</option><option value="4">เมษายน</option><option value="5">พฤษภาคม</option><option value="6">มิถุนายน</option><option value="7">กรกฎาคม</option><option value="8">สิงหาคม</option><option value="9">กันยายน</option><option value="10">ตุลาคม</option><option value="11">พฤศจิกายน</option><option value="12">ธันวาคม</option></select></div>
+    <div class="field"><label for="tlHouse">บ้าน</label><select id="tlHouse" required=""><option value="">เลือกบ้าน</option></select></div>
+    <div class="field"><label for="tlYear">ปีของบิล (พ.ศ. ตามข้อมูลในชีต)</label><input id="tlYear" type="number" min="2400" max="2800" step="1" required="" placeholder="เช่น 2569"></div>
+    <div class="field"><label for="tlCustomer">ชื่อลูกค้า / ผู้รับ</label><input id="tlCustomer" maxlength="160" required="" autocomplete="off"></div>
+    <div class="field"><label for="tlIssuer">ชื่อผู้ออกบิล *</label><input id="tlIssuer" maxlength="160" required="" placeholder="กรอกชื่อผู้ออกบิล" autocomplete="off"></div>
+    <div class="field"><label for="tlDate">วันที่ออกเอกสาร</label><input id="tlDate" type="date" required=""></div>
+    <div class="field"><label for="tlDocument">เลขที่เอกสารบิลใหญ่</label><input id="tlDocument" maxlength="80" placeholder="กรอกตามเลขที่เอกสารของโครงการ" disabled=""></div>
+    <div class="field full"><label for="tlNote">หมายเหตุบนบิล</label><textarea id="tlNote" maxlength="600" rows="2" disabled=""></textarea></div>
+   </div>
+   <p class="tl-help">ปีใช้แสดงบนเอกสารเท่านั้น ระบบเดิมไม่มีตัวกรองปี กรุณาระบุปีให้ตรงกับชีตที่ใช้งาน ข้อมูลฟอร์มนี้ไม่ถูกบันทึกลงชีต</p>
+
+   
+   <fieldset id="tlWaterFields" disabled="" hidden="">
+    <legend>บิลเล็กค่าน้ำ — กรอกแยกจากบิลใหญ่</legend>
+    <p id="tlWaterContext" class="tl-help">กรอกข้อมูลได้เลย เลือกบ้านและเดือนให้ครบก่อนออกบิล</p>
+    <div class="form-grid">
+     <div class="field"><label for="tlWaterDoc">เลขที่เอกสารบิลเล็ก</label><input id="tlWaterDoc" required="" maxlength="80"></div>
+     <div class="field"><label for="tlWaterAddress">ที่อยู่ลูกค้า / เลขที่บ้าน (ถ้ามี)</label><input id="tlWaterAddress" maxlength="200"></div>
+     <div class="field"><label for="tlWaterPrev">เลขอ่านครั้งก่อน</label><input id="tlWaterPrev" type="number" min="0" max="999999999" step="0.001" required=""></div>
+     <div class="field"><label for="tlWaterCurrent">เลขอ่านปัจจุบัน</label><input id="tlWaterCurrent" type="number" min="0" max="999999999" step="0.001" required=""></div>
+     <div class="field"><label for="tlWaterUsage">หน่วยที่ใช้ (คำนวณจากมิเตอร์)</label><input id="tlWaterUsage" readonly=""></div>
+     <div class="field"><label for="tlWaterAmount">ค่าน้ำประปา (บาท) — กรอกยอดเอง</label><input id="tlWaterAmount" type="number" min="0" max="999999999" step="0.01" required=""></div>
+     <div class="field"><label for="tlWaterService">ค่าบริการ (บาท)</label><input id="tlWaterService" type="number" min="0" max="999999999" step="0.01" required=""></div>
+     <div class="field"><label for="tlWaterGarbage">ค่าเก็บขยะ (บาท)</label><input id="tlWaterGarbage" type="number" min="0" max="999999999" step="0.01" required=""></div>
+     <div class="field"><label for="tlWaterTotal">ยอดรวมบิลเล็ก (บาท)</label><input id="tlWaterTotal" readonly=""></div>
+    </div>
+    <p class="tl-help">ใช้ชื่อลูกค้า บ้าน เดือน ปี และวันที่ร่วมกับใบใหญ่ แต่เลขที่เอกสารและยอดเงินแยกกัน กรอก 0 เมื่อไม่มีค่าบริการหรือค่าเก็บขยะ ยอดนี้ไม่บวกหรือแก้ไขบิลใหญ่</p>
+   </fieldset>
+
+<fieldset id="tlElectricFields" disabled="" hidden=""><legend>ใบแจ้งค่าไฟฟ้า — ยอดแยกจากบิลใหญ่และบิลน้ำ</legend>
+<p class="tl-help">กรอกข้อมูลได้เลย เลือกบ้านและเดือนให้ครบก่อนออกบิล ใช้ชื่อลูกค้าและวันที่ออกเอกสารร่วมกัน ยอดค่าไฟนี้ไม่บวกซ้ำเข้าในบิลใหญ่ ดึงยอดค่าไฟจากชีตมาให้ ค่าบริการเริ่มต้น 0 เพื่อไม่บวกซ้ำ หากแก้ยอดแล้วกดโหลดล่าสุด ระบบจะใช้ยอดจากชีตอีกครั้ง</p><div class="form-grid">
+<div class="field"><label for="tlElectricAccount">หมายเลขผู้ใช้ไฟฟ้า</label><input id="tlElectricAccount" type="text" maxlength="80"></div><div class="field"><label for="tlElectricDoc">เลขที่เอกสารค่าไฟ</label><input id="tlElectricDoc" type="text" required="" maxlength="80"></div><div class="field"><label for="tlElectricPremise">สถานที่ใช้ไฟฟ้า / ที่อยู่</label><input id="tlElectricPremise" type="text" required="" maxlength="240"></div><div class="field"><label for="tlElectricReadDate">วันที่อ่านหน่วย</label><input id="tlElectricReadDate" type="date" required=""></div><div class="field"><label for="tlElectricDue">วันครบกำหนดชำระ</label><input id="tlElectricDue" type="date" required=""></div><div class="field"><label for="tlElectricPrev">เลขอ่านครั้งก่อน</label><input id="tlElectricPrev" type="number" required="" min="0" max="999999999" step="0.001"></div><div class="field"><label for="tlElectricCurrent">เลขอ่านครั้งหลัง</label><input id="tlElectricCurrent" type="number" required="" min="0" max="999999999" step="0.001"></div><div class="field"><label for="tlElectricUsage">จำนวนหน่วยที่ใช้</label><input id="tlElectricUsage" type="text" readonly=""></div><div class="field"><label for="tlElectricAmount">ค่าไฟจากชีต (บาท) — ตรวจสอบและแก้ไขได้</label><input id="tlElectricAmount" type="number" required="" min="0" max="999999999" step="0.01"></div><div class="field"><label for="tlElectricService">ค่าบริการรายเดือน (บาท)</label><input id="tlElectricService" type="number" required="" min="0" max="999999999" step="0.01"></div><div class="field"><label for="tlElectricTotal">รวมค่าไฟฟ้า (บาท)</label><input id="tlElectricTotal" type="text" readonly=""></div><div class="field"><label for="tlElectricContact">ติดต่อสอบถาม</label><input id="tlElectricContact" type="text" maxlength="160"></div></div><div class="field"><label for="tlElectricNote">หมายเหตุ / เงื่อนไขการชำระเงิน</label><textarea id="tlElectricNote" maxlength="2000">กรุณาชำระค่าบริการภายในกำหนด และส่งหลักฐานการชำระเงินผ่าน LINE Official Account: 098-8823854</textarea></div></fieldset>   <div class="tl-actions">
+    <button id="tlReload" type="button" class="cancel-btn">โหลดค่าใช้จ่ายล่าสุด</button>
+    
+    <button id="tlPreviewButton" type="submit" class="save-btn" disabled="">ดูตัวอย่างบิล</button>
+    <button id="tlPrint" type="button" class="save-btn" disabled="">พิมพ์ / Save PDF บิลที่เลือก</button>
+   </div>
+   <div id="tlStatus" class="tl-status" role="status" aria-live="polite" data-error="false">กรุณาเลือกบ้าน</div>
+  </form>
  </div>
- <div class="bill-box">
-  <div class="bill-grid">
-   <div class="field"><label>เลขอ่านครั้งก่อน (ถ้ามี)</label><input class="input" id="billPrevious" type="number" step="any"></div>
-   <div class="field"><label>เลขอ่านปัจจุบัน (ถ้ามี)</label><input class="input" id="billCurrent" type="number" step="any"></div>
-   <div class="field"><label>หน่วยที่ใช้ (คำนวณจากมิเตอร์)</label><input class="input" id="billUnits" readonly></div>
-   <div class="field"><label>ยอดค่าน้ำ / ค่าไฟจากชีต (บาท)</label><input class="input" id="billAmount" type="number" step="0.01" min="0"></div>
-   <div class="field"><label>ค่าบริการเพิ่มเติม (บาท)</label><input class="input" id="billService" type="number" step="0.01" min="0" value="0"></div>
-   <div class="field"><label>ค่าเก็บขยะ / ค่าอื่น ๆ (บาท)</label><input class="input" id="billOther" type="number" step="0.01" min="0" value="0"></div>
-   <div class="field"><label>รวมทั้งสิ้น (บาท)</label><input class="input" id="billTotal" readonly></div>
-  </div>
-  <p class="bill-help">ยอดค่าน้ำและค่าไฟดึงจากข้อมูลรายบ้านโดยตรง ส่วนเลขมิเตอร์ยังต้องกรอกเอง ระบบนี้ไม่บันทึกหรือแก้ไขข้อมูลใน Google Sheets และจะไม่ใช้ยอดจากบ้าน/เดือนอื่นแทนเมื่อไม่พบข้อมูล</p>
-  <div class="bill-actions"><button class="btn btn-primary" onclick="previewBill()">ดูตัวอย่างบิล</button><button class="btn btn-light" onclick="printBill()">พิมพ์ / Save PDF</button></div>
- </div>
- <div id="billPreview" class="bill-box" style="display:none"></div>
+ <div id="tlPreview" hidden=""><article id="tlBill" class="tl-bill" aria-label="ตัวอย่างใบแจ้งค่าใช้บริการ" hidden=""></article><article id="tlWaterBill" class="tl-bill tl-water-page" aria-label="ตัวอย่างบิลเล็กค่าน้ำ" hidden=""></article><article id="tlElectricBill" class="tl-bill" hidden="" aria-label="ตัวอย่างใบแจ้งค่าไฟฟ้า"></article></div>
 </section>
+
 <div id="billPrint" class="bill-print"></div>
 </main>
 
@@ -156,7 +280,7 @@ function pick(obj,keys){for(const k of keys)if(obj&&obj[k]!==undefined&&obj[k]!=
 function monthlyCard(label,value,cls=''){return `<div class="summary-card"><div class="summary-label">${escapeHtml(label)}</div><div class="summary-value ${cls}">${escapeHtml(value)}</div></div>`}
 
 function bindNavigation(){document.querySelectorAll('.nav-btn').forEach(btn=>btn.addEventListener('click',()=>showPage(btn.dataset.page)))}
-function showPage(page){document.querySelectorAll('.nav-btn').forEach(b=>b.classList.toggle('active',b.dataset.page===page));document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));document.getElementById('page-'+page).classList.add('active');if(page==='houses')renderHouseList();if(page==='issues')renderIssues()}
+function showPage(page){document.querySelectorAll('.nav-btn').forEach(b=>b.classList.toggle('active',b.dataset.page===page));document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));document.getElementById('page-'+page).classList.add('active');if(page==='houses')renderHouseList();if(page==='issues')renderIssues();document.getElementById('pageBilling').classList.toggle('active',page==='billing')}
 async function loadSummary(){
   showSummaryLoading();
   try{const res=await fetch(API+'?mode=summary&_='+Date.now(),{cache:'no-store'}),data=await res.json();if(!res.ok||!data.ok)throw new Error(data.error||'โหลดข้อมูลไม่สำเร็จ');summaryData=data;renderSummary();renderDashboardHouses();renderHouseList();renderIssues()}
@@ -218,55 +342,310 @@ function csvCell(v){return '"'+String(v??'').replaceAll('"','""')+'"'}
 function showToast(text){const el=document.getElementById('toast');el.textContent=text;el.classList.add('show');clearTimeout(toastTimer);toastTimer=setTimeout(()=>el.classList.remove('show'),2800)}
 document.getElementById('editModal').addEventListener('click',e=>{if(e.target.id==='editModal')closeModal()});
 
-// TMV billing extension: read-only expense lookup; does not alter existing save flow.
-let billLoadedKey='',billLoadedValue=null;
-function setupBilling(){
- const house=document.getElementById('billHouse'),month=document.getElementById('billMonth');
- house.innerHTML=Array.from({length:88},(_,i)=>`<option value="TMV${i+1}">TMV${i+1}</option>`).join('');
- month.innerHTML=MONTHS.map((m,i)=>`<option value="${i+1}">${m}</option>`).join('');
- const today=new Date();month.value=String(today.getMonth()+1);document.getElementById('billYear').value=today.getFullYear()+543;
- document.getElementById('billDate').value=[today.getFullYear(),String(today.getMonth()+1).padStart(2,'0'),String(today.getDate()).padStart(2,'0')].join('-');
- ['billHouse','billMonth','billYear','billType'].forEach(id=>document.getElementById(id).addEventListener('change',()=>{billLoadedKey='';billLoadedValue=null;document.getElementById('billAmount').value='';document.getElementById('billLoadStatus').textContent='กรุณากดดึงยอดจากชีตรายบ้าน';document.getElementById('billPreview').style.display='none';calcBill()}));
- ['billPrevious','billCurrent','billAmount','billService','billOther'].forEach(id=>document.getElementById(id).addEventListener('input',()=>{calcBill();document.getElementById('billPreview').style.display='none'}));
+
+
+const HOUSE_NAMES=Array.from({length:88},(_,i)=>'TMV'+(i+1));
+const el=id=>document.getElementById(id);
+const valueOf=id=>(el(id)?.value||'').trim();
+function tmvMonthNo(label){const s=String(label||'').trim();for(let i=0;i<MONTHS.length;i++)if(s.includes(MONTHS[i]))return i+1;const m=s.match(/(?:^|\s)(1[0-2]|[1-9])(?:\s|$|\/)/);return m?Number(m[1]):0;}
+
+const tlChargeFields = [
+ ['electric','ค่าบริการไฟฟ้า','Electricity'],['water','ค่าบริการน้ำประปา','Water'],
+ ['pool','ค่าบริการดูแลสระว่ายน้ำ','Pool maintenance'],['cleaning','ค่าบริการทำความสะอาด','Cleaning'],
+ ['garden','ค่าบริการทำสวน','Gardening'],['commonFee','ค่าส่วนกลาง','Common area fee'],
+ ['inOut','ค่าบริการเข้า–ออก','Check-in / Check-out'],['laundry','ค่าบริการซักผ้า','Laundry'],
+ ['other','ค่าใช้จ่ายอื่น','Other expenses']
+];
+let tlBillingData = null;
+let tlLoadVersion = 0;
+let tlPreviewReady = false;
+function tlMoney(cents) {
+ return (cents/100).toLocaleString('th-TH',{minimumFractionDigits:2,maximumFractionDigits:2});
 }
-function billKey(){return [value('billHouse'),value('billMonth'),value('billYear'),value('billType')].join('|')}
-function billNum(id){const v=value(id);return v===''?0:Number(v)}
-function calcBill(){
- const prev=value('billPrevious'),cur=value('billCurrent');document.getElementById('billUnits').value=prev!==''&&cur!==''&&Number(cur)>=Number(prev)?String(Number(cur)-Number(prev)):'';
- const total=billNum('billAmount')+billNum('billService')+billNum('billOther');document.getElementById('billTotal').value=Number.isFinite(total)?total.toFixed(2):'';
+function tlCents(value, label) {
+ if (value == null || String(value).trim() === '') return null;
+ const raw=String(value).trim();
+ if (!/^-?(?:\d+|\d{1,3}(?:,\d{3})+)(?:\.\d+)?$/.test(raw)) throw new Error(label+' มีค่าที่ไม่ใช่จำนวนเงิน');
+ const n=Number(raw.replace(/,/g,''));
+ const cents=Math.round((n+Number.EPSILON)*100);
+ if (!Number.isSafeInteger(cents) || Math.abs(cents)>99999999999999) throw new Error(label+' มีจำนวนเงินเกินขอบเขต');
+ return cents;
 }
-async function loadBillExpense(){
- const house=value('billHouse'),monthNo=Number(value('billMonth')),type=value('billType'),status=document.getElementById('billLoadStatus'),btn=document.getElementById('billLoadButton');
- billLoadedKey='';billLoadedValue=null;document.getElementById('billAmount').value='';document.getElementById('billPreview').style.display='none';calcBill();
- btn.disabled=true;status.textContent='กำลังดึงข้อมูล '+house+'...';
- try{
-  const res=await fetch(`${API}?mode=house&name=${encodeURIComponent(house)}&_=${Date.now()}`,{cache:'no-store'});
-  const data=await res.json();if(!res.ok||!data.ok)throw new Error(data.error||'ไม่สามารถดึงข้อมูลรายบ้านได้');
-  const rows=Array.isArray(data.data)?data.data:[];
-  const row=rows[monthNo-1];if(!row)throw new Error('ไม่พบข้อมูลเดือนที่เลือก');
-  // Explicit empty values are missing, not zero; zero is a valid billed amount.
-  const raw=row[type];if(raw===null||raw===undefined||String(raw).trim()==='')throw new Error('ไม่มีข้อมูลยอด'+(type==='water'?'ค่าน้ำ':'ค่าไฟ')+'ในชีตของเดือนนี้');
-  const amount=Number(String(raw).replace(/,/g,''));if(!Number.isFinite(amount)||amount<0)throw new Error('ยอดเงินจากชีตไม่ถูกต้อง');
-  // Guard against stale async responses after selection changes.
-  const expected=[house,String(monthNo),value('billYear'),type].join('|');if(billKey()!==expected)return;
-  document.getElementById('billAmount').value=amount.toFixed(2);billLoadedKey=expected;billLoadedValue=amount;
-  status.textContent=`ดึงยอด${type==='water'?'ค่าน้ำ':'ค่าไฟ'} ${house} เดือน${MONTHS[monthNo-1]} สำเร็จ: ${amount.toLocaleString('th-TH')} บาท`;calcBill();
- }catch(err){status.textContent='ไม่สำเร็จ: '+err.message;showToast(status.textContent)}finally{btn.disabled=false}
+function tlBahtText(cents) {
+ const digits=['ศูนย์','หนึ่ง','สอง','สาม','สี่','ห้า','หก','เจ็ด','แปด','เก้า'];
+ function read(n, preceding=false) {
+  if(n>=1000000) return read(Math.floor(n/1000000))+'ล้าน'+(n%1000000 ? read(n%1000000,true):'');
+  const str=String(n); let out='';
+  for(let i=0;i<str.length;i++) {
+   const d=Number(str[i]), pos=str.length-i-1;
+   if(!d) continue;
+   if(pos===1) out+=(d===1?'':d===2?'ยี่':digits[d])+'สิบ';
+   else if(pos===0) out+=(d===1&&(out||preceding)?'เอ็ด':digits[d]);
+   else out+=digits[d]+['','','ร้อย','พัน','หมื่น','แสน'][pos];
+  }
+  return out;
+ }
+ const n=Math.abs(cents), baht=Math.floor(n/100), satang=n%100;
+ return (cents<0?'ลบ':'')+(baht?read(baht):'ศูนย์')+'บาท'+(satang?read(satang)+'สตางค์':'ถ้วน');
 }
-function billEsc(v){return escapeHtml(v)}
-function billMoney(v){return Number(v).toLocaleString('th-TH',{minimumFractionDigits:2,maximumFractionDigits:2})}
-function billDateText(v){if(!v)return '-';const [y,m,d]=v.split('-').map(Number);return `${d}/${m}/${y+543}`}
-function buildBill(){
- if(billLoadedKey!==billKey()||billLoadedValue===null)throw new Error('กรุณากดดึงยอดจากชีตรายบ้านก่อนออกบิล');
- const amount=billNum('billAmount'),service=billNum('billService'),other=billNum('billOther');
- if([amount,service,other].some(n=>!Number.isFinite(n)||n<0))throw new Error('ยอดเงินต้องเป็นตัวเลขตั้งแต่ 0 ขึ้นไป');
- const house=value('billHouse'),month=MONTHS[Number(value('billMonth'))-1],year=value('billYear'),isWater=value('billType')==='water',label=isWater?'ค่าน้ำประปา':'ค่าไฟฟ้า';
- const customer=value('billCustomer')||'-',number=value('billNumber')||'-',prev=value('billPrevious'),cur=value('billCurrent'),units=value('billUnits');
- const line=(name,amt)=>`<tr><td>${billEsc(name)}</td><td class="bill-right">${billMoney(amt)}</td></tr>`;
- return `<div class="bill-sheet"><h2>THE MODERN VIEW</h2><h2>ใบแจ้ง${billEsc(label)}</h2><p style="text-align:center">ประจำเดือน ${billEsc(month)} ${billEsc(year)}</p><p><strong>บ้าน:</strong> ${billEsc(house)} &nbsp; <strong>ชื่อลูกค้า:</strong> ${billEsc(customer)}</p><p><strong>เลขที่เอกสาร:</strong> ${billEsc(number)} &nbsp; <strong>วันที่ออกบิล:</strong> ${billEsc(billDateText(value('billDate')))}</p><p><strong>ครบกำหนดชำระ:</strong> ${billEsc(billDateText(value('billDueDate')))}</p>${prev!==''&&cur!==''?`<p><strong>มิเตอร์ครั้งก่อน:</strong> ${billEsc(prev)} &nbsp; <strong>ปัจจุบัน:</strong> ${billEsc(cur)} &nbsp; <strong>ใช้ไป:</strong> ${billEsc(units||'—')} หน่วย</p>`:''}<table><thead><tr><th>รายการ</th><th class="bill-right">จำนวนเงิน (บาท)</th></tr></thead><tbody>${line(label,amount)}${line('ค่าบริการเพิ่มเติม',service)}${line('ค่าเก็บขยะ / ค่าอื่น ๆ',other)}</tbody></table><div class="bill-total">รวมทั้งสิ้น ${billMoney(amount+service+other)} บาท</div><p style="margin-top:30px;font-size:12px;color:#555">หมายเหตุ: โปรดตรวจสอบข้อมูลก่อนชำระเงิน</p></div>`;
+function tlReadCharges(row) {
+ const items=[];
+ for(const [key,thai,english] of tlChargeFields) {
+  const raw=key==='inOut'?(row.inOut!=null?row.inOut:row.access):row[key];
+  const cents=tlCents(raw,thai);
+  if(cents) items.push({key,thai,english,cents});
+ }
+ const total=items.reduce((sum,item)=>sum+item.cents,0);
+ if(!Number.isSafeInteger(total)||Math.abs(total)>99999999999999) throw new Error('ยอดรวมเกินขอบเขต');
+ const recorded=tlCents(row.bill,'ยอดวางบิลเดิม');
+ return {items,total,recorded,matches:recorded==null||recorded===total};
 }
-function previewBill(){try{const html=buildBill(),el=document.getElementById('billPreview');el.innerHTML=html;el.style.display='block';el.scrollIntoView({behavior:'smooth',block:'start'})}catch(e){showToast(e.message)}}
-function printBill(){try{document.getElementById('billPrint').innerHTML=buildBill();window.print()}catch(e){showToast(e.message)}}
+function tlInvalidate() {
+ tlPreviewReady=false;
+ el('tlPrint').disabled=true;
+ el('tlPreview').hidden=true;
+ document.body.classList.remove('tl-printing');
+}
+function tlMessage(message,error=false) {
+ el('tlStatus').textContent=message;
+ el('tlStatus').dataset.error=String(error);
+}
+async function tlLoadCharges() {
+ const version=++tlLoadVersion;
+ tlInvalidate(); tlBillingData=null; el('tlWaterAmount').value=''; tlUpdateWater(); el('tlElectricAmount').value=''; el('tlElectricService').value=''; tlUpdateElectric(); el('tlPreviewButton').disabled=!tlCanPreview();
+ const house=valueOf('tlHouse'), month=Number(valueOf('tlMonth'));
+ if(!house) {tlMessage('กรุณาเลือกบ้าน');return;}
+ tlMessage('กำลังโหลดค่าใช้จ่ายของ '+house+' ประจำเดือน'+MONTHS[month-1]+'...');
+ try {
+  // Force a fresh GET using the existing reader. Never POST from billing.
+  const response=await fetch(`${API}?mode=house&name=${encodeURIComponent(house)}&_=${Date.now()}`,{cache:'no-store'});const payload=await response.json();if(!response.ok||!payload.ok)throw new Error(payload.error||'โหลดข้อมูลไม่สำเร็จ');const rows=payload.data||[];
+  if(version!==tlLoadVersion) return;
+  const matches=rows.filter(row=>tmvMonthNo(row.month)===month);
+  if(matches.length>1) throw new Error('พบข้อมูลเดือนเดียวกันมากกว่า 1 รายการ กรุณาตรวจสอบข้อมูลต้นทาง');
+  const row=matches[0];
+  if(!row) throw new Error('ไม่พบข้อมูลค่าใช้จ่ายของบ้านและเดือนที่เลือก');
+  tlFillElectric(row);
+  tlFillWaterCharge(row);
+  const charges=tlReadCharges(row);
+  if(!charges.items.length) throw new Error('ไม่มีรายการค่าใช้จ่ายที่มีมูลค่าในเดือนนี้');
+  if(!charges.matches)tlMessage('ยอดรวมรายการไม่ตรงกับยอดวางบิลเดิม กรุณาตรวจสอบ',true);
+  tlBillingData={house,month,row:{...row},...charges};
+  el('tlPreviewButton').disabled=!tlCanPreview();
+  tlMessage('พบ '+charges.items.length+' รายการ • รวม '+tlMoney(charges.total)+' บาท'+(charges.recorded==null?' • ไม่มีค่าของยอดวางบิลเดิมให้เปรียบเทียบ':' • ตรงกับยอดวางบิลเดิม'));
+ } catch(error) {
+  if(version!==tlLoadVersion) return;
+  tlMessage(error.message+(el('tlLargeInclude').checked?'':' — ยังออกบิลน้ำ/ไฟโดยกรอกข้อมูลเองได้'),true);
+  el('tlPreviewButton').disabled=!tlCanPreview();
+ }
+}
+function tlRenderPreview(event) {
+ if(event) event.preventDefault();
+ tlInvalidate();
+ if(!el('tlBillingForm').reportValidity()) return;
+ if(!tlCanPreview()) {tlMessage('เลือกบ้านและประเภทบิล หากเลือกบิลใหญ่ต้องโหลดค่าใช้จ่ายให้สำเร็จก่อน',true);return;}
+ if(!valueOf('tlIssuer').trim()) {tlMessage('กรุณากรอกชื่อผู้ออกบิล',true);return;}
+ const large=el('tlLargeInclude').checked;
+ const data=large?tlBillingData:{house:valueOf('tlHouse'),month:Number(valueOf('tlMonth')),row:{},items:[],total:0};
+ if(data.house!==valueOf('tlHouse') || data.month!==Number(valueOf('tlMonth'))) return;
+ if(!valueOf('tlCustomer')||(large&&!valueOf('tlDocument'))) {tlMessage('กรุณากรอกชื่อลูกค้าและเลขที่เอกสาร',true);return;}
+ let water; try { water=tlReadWater(); } catch(error) {tlMessage(error.message,true);return;}
+ let electric; try {electric=tlReadElectric();} catch(error) {tlMessage(error.message,true);return;}
+ const E=escapeHtml, period=MONTHS[data.month-1]+' '+valueOf('tlYear');
+ const date=new Date(valueOf('tlDate')+'T12:00:00');
+ if(Number.isNaN(date.getTime())) {tlMessage('วันที่ออกเอกสารไม่ถูกต้อง',true);return;}
+ const dateText=date.toLocaleDateString('th-TH',{day:'numeric',month:'long',year:'numeric'});
+ el('tlBill').innerHTML=`
+  <div class="tl-header">
+   <div><h2>โครงการเดอะ โมเดิร์น วิว</h2><b>THE MODERN VIEW PROJECT</b><p>ตำบลทับใต้ อำเภอหัวหิน จังหวัดประจวบคีรีขันธ์</p></div>
+   <div class="tl-title"><h3>เอกสารแจ้งค่าใช้บริการประจำเดือน<br>ส่วนลูกค้าสัมพันธ์</h3><small>INFORM THE MONTHLY EXPENSE<br>CUSTOMER RELATIONS DIVISION</small>
+    <div class="tl-meta">เลขที่เอกสาร / No. <b>${E(valueOf('tlDocument'))}</b><br>วันที่ / Date: ${E(dateText)}</div></div>
+  </div>
+  <div class="tl-recipient"><b>เรียน / ATTENTION:</b> ${E(valueOf('tlCustomer'))}<br><b>บ้าน / HOUSE:</b> ${E(data.house)}<br><b>ประจำเดือน / PERIOD:</b> ${E(period)}<br><small>สิ่งที่แนบมาด้วย / ATTACHMENT: สำเนาใบแจ้งค่าใช้บริการ / COPY OF INVOICE</small></div>
+  <p>ทางโครงการฯ ขอแจ้งค่าใช้บริการต่าง ๆ สำหรับเดือน ${E(period)} ดังรายละเอียดต่อไปนี้<br><small>The project would like to inform the monthly expense as follows:</small></p>
+  <table><thead><tr><th>ลำดับ<br>No.</th><th>รายการค่าใช้จ่าย / Description</th><th>จำนวนเงิน (บาท)<br>Amount (THB)</th></tr></thead><tbody>
+   ${data.items.map((item,i)=>`<tr><td>${i+1}</td><td>${E(item.thai)}${item.key==='other'&&data.row.otherDetail?'<br>'+E(data.row.otherDetail):''}</td><td>${tlMoney(item.cents)}</td></tr>`).join('')}
+  </tbody></table>
+  <div class="tl-total">รวมเป็นเงินทั้งสิ้น / TOTAL AMOUNT &nbsp; ${tlMoney(data.total)} บาท</div>
+  <div class="tl-words">จำนวนเงิน (ตัวอักษร) / TOTAL AMOUNT (TEXT)<br>${tlBahtText(data.total)}</div>
+  ${valueOf('tlNote')?'<p class="tl-notes"><b>หมายเหตุ / Note:</b> '+E(valueOf('tlNote'))+'</p>':''}
+  <div class="tl-terms"><p>จึงเรียนมาเพื่อโปรดทราบและขอให้ท่านดำเนินการชำระค่าบริการตามรายละเอียดภายใน 7 วันนับแต่วันที่ได้รับหนังสือฉบับนี้ เพื่อหลีกเลี่ยงการระงับการให้บริการและการเรียกเก็บค่าปรับในกรณีชำระล่าช้า กรณีขอติดตั้งหรือขอต่อมิเตอร์ใหม่ จะมีค่าธรรมเนียมการเปิดบริการคืน 500 บาท (ห้าร้อยบาทถ้วน) กรุณาส่งหลักฐานการชำระเงินผ่าน LINE Official Account ของโครงการ เพื่อยืนยันการชำระเงิน ทั้งนี้ ผู้มีชื่อในบัญชีมิเตอร์ถือเป็นผู้มีสิทธิรับบริการและรับผิดชอบชำระค่าบริการทั้งหมดตามใบแจ้งของหน่วยงานที่ออกบิลเอง</p>
+  <p>For your information, please proceed with the payment as detailed above within 7 days from the date of receipt of this notice to avoid service suspension and late payment charges. In the event of a new installation or meter reconnection, a service fee of 500 Baht (five hundred Baht only) will apply. Please submit proof of payment via LINE Official Account ของโครงการ to confirm your payment. The account holder registered on the utility meter is considered the entitled party and is solely responsible for all service charges as billed by the authority.</p></div>
+  <div class="tl-sign">ขอแสดงความนับถือ / Best Regards<div class="tl-sign-line"></div><div>ผู้ออกบิล: ${E(valueOf('tlIssuer').trim())}</div><small>(ส่วนบริการลูกค้าสัมพันธ์ / เจ้าหน้าที่บัญชีการเงิน)<br>Customer Relations Division / Accounting Officer</small></div>
+  <div class="tl-payment"><b>ท่านสามารถชำระเงินได้ผ่านช่องทางดังนี้ / Please make payment by:</b>
+   <p>กรุณาติดต่อฝ่ายบริการโครงการเพื่อยืนยันช่องทางการชำระเงิน</p>
+  </div>`;
+ el('tlBill').hidden=!large;
+ if(!large) el('tlBill').innerHTML='';
+ document.body.classList.toggle('tl-small-only',!large);
+ tlRenderWater(water,period,dateText);
+ tlRenderElectric(electric,period,dateText);
+ el('tlPreview').hidden=false;
+ tlPreviewReady=true;
+ el('tlPrint').disabled=false;
+ 
+ el('tlPreview').scrollIntoView({behavior:'smooth',block:'start'});
+}
+
+function tlToggleWater() {
+ tlInvalidate();
+ const ready=HOUSE_NAMES.includes(valueOf('tlHouse')) && Number(valueOf('tlMonth'))>=1 && Number(valueOf('tlMonth'))<=12;
+ el('tlWaterFields').disabled=!el('tlWaterInclude').checked;
+ if(!el('tlWaterInclude').checked) {el('tlWaterBill').hidden=true;el('tlWaterBill').innerHTML='';}
+}
+
+function tlResetWater() {
+ tlResetElectric();
+ tlInvalidate();
+ for(const id of ['tlWaterDoc','tlWaterAddress','tlWaterPrev','tlWaterCurrent','tlWaterAmount','tlWaterService','tlWaterGarbage','tlWaterUsage','tlWaterTotal']) el(id).value='';
+ el('tlWaterCurrent').setCustomValidity('');
+ const ready=HOUSE_NAMES.includes(valueOf('tlHouse')) && Number(valueOf('tlMonth'))>=1 && Number(valueOf('tlMonth'))<=12;
+ tlToggleWater();
+ el('tlWaterContext').textContent=ready?'บิลเล็กสำหรับ '+valueOf('tlHouse')+' • '+MONTHS[Number(valueOf('tlMonth'))-1]+' '+valueOf('tlYear'):'กรอกข้อมูลได้เลย เลือกบ้านและเดือนให้ครบก่อนออกบิล';
+}
+// Read-only billing autofill from the existing monthly house expense row.
+// Do not overwrite meter readings, document numbers, or customer-entered service fees.
+function tlFillWaterCharge(row) {
+ const cents=tlCents(row.water,'ค่าน้ำจากชีต');
+ el('tlWaterAmount').value=cents===null?'':String(cents/100);
+ tlUpdateWater();
+}
+function tlUpdateWater() {
+ const previous=valueOf('tlWaterPrev'), current=valueOf('tlWaterCurrent');
+ const invalid=previous!=='' && current!=='' && Number(current)<Number(previous);
+ el('tlWaterCurrent').setCustomValidity(invalid?'เลขอ่านปัจจุบันต้องไม่น้อยกว่าครั้งก่อน':'');
+ el('tlWaterUsage').value=previous!=='' && current!=='' && !invalid ? String(Math.round((Number(current)-Number(previous))*1000)/1000):'';
+ try {
+  const values=['tlWaterAmount','tlWaterService','tlWaterGarbage'].map(id=>tlCents(valueOf(id),'ยอดบิลเล็ก'));
+  el('tlWaterTotal').value=values.every(n=>n!==null&&n>=0)?tlMoney(values.reduce((a,b)=>a+b,0)):'';
+ } catch(error) {el('tlWaterTotal').value='';}
+}
+function tlReadWater() {
+ if(!el('tlWaterInclude').checked) return null;
+ if(el('tlWaterFields').disabled || !HOUSE_NAMES.includes(valueOf('tlHouse'))) throw new Error('กรุณาเลือกบ้านก่อนกรอกบิลเล็ก');
+ if(!valueOf('tlWaterDoc')) throw new Error('กรุณากรอกเลขที่เอกสารบิลเล็ก');
+ const previous=valueOf('tlWaterPrev'), current=valueOf('tlWaterCurrent');
+ if(previous===''||current===''||!Number.isFinite(Number(previous))||!Number.isFinite(Number(current))||Number(previous)<0||Number(current)<Number(previous)) throw new Error('กรุณาตรวจเลขมิเตอร์บิลเล็ก');
+ const amounts=['tlWaterAmount','tlWaterService','tlWaterGarbage'].map(id=>tlCents(valueOf(id),'ยอดบิลเล็ก'));
+ if(amounts.some(n=>n===null||n<0)) throw new Error('กรอกยอดบิลเล็กให้ครบ และต้องไม่ติดลบ');
+ return {previous,current,usage:Math.round((Number(current)-Number(previous))*1000)/1000,amounts,total:amounts.reduce((a,b)=>a+b,0)};
+}
+function tlRenderWater(water,period,dateText) {
+ el('tlWaterBill').hidden=!water;
+ if(!water) {el('tlWaterBill').innerHTML='';return;}
+ const E=escapeHtml,month=Number(valueOf('tlMonth')),year=Number(valueOf('tlYear'))-543;
+ const lastDay=new Date(year,month,0).getDate();
+ el('tlWaterBill').innerHTML=`<div class="tl-water-card">
+  <header><div><h2>THE MODERN VIEW</h2><b>โครงการเดอะ โมเดิร์น วิว</b><p>ต.ทับใต้ อ.หัวหิน จ.ประจวบคีรีขันธ์</p></div>
+  <div class="tl-water-meta"><h3>ใบแจ้งค่าใช้บริการประปา</h3><b>WATER INVOICE</b><p>ประจำเดือน / MONTH: ${E(period)}<br>เลขที่ / INVOICE NO.: ${E(valueOf('tlWaterDoc'))}<br>รอบวันที่ / PERIOD: 1–${lastDay} ${E(period)}<br>วันที่ออก / DATE: ${E(dateText)}</p></div></header>
+  <div class="tl-water-customer"><b>ชื่อลูกค้า / CUSTOMER:</b> ${E(valueOf('tlCustomer'))}<br><b>บ้าน / HOUSE:</b> ${E(valueOf('tlHouse'))}${valueOf('tlWaterAddress')?'<br>'+E(valueOf('tlWaterAddress')):''}</div>
+  <table><thead><tr><th>เลขอ่านปัจจุบัน<br>CURRENT READ</th><th>เลขอ่านครั้งก่อน<br>PREVIOUS READ</th><th>หน่วยที่ใช้<br>USAGE</th><th>ค่าน้ำประปา<br>AMOUNT</th><th>ค่าบริการ<br>SERVICE</th><th>ค่าเก็บขยะ<br>GARBAGE</th><th>รวมทั้งสิ้น<br>TOTAL</th></tr></thead>
+  <tbody><tr><td>${E(water.current)}</td><td>${E(water.previous)}</td><td>${water.usage}</td>${water.amounts.map(n=>'<td>'+tlMoney(n)+'</td>').join('')}<td><b>${tlMoney(water.total)}</b></td></tr></tbody></table>
+  <div class="tl-water-words"><b>รวมทั้งสิ้น (ตัวอักษร):</b> ${tlBahtText(water.total)}</div>
+  <p class="tl-payment">โปรดตรวจสอบรายละเอียดบัญชีรับชำระเงินกับฝ่ายบริการโครงการก่อนชำระ</p>
+  <footer>ผู้ออกบิล: ${E(valueOf('tlIssuer').trim())}<br>โปรดชำระเงินภายใน 7 วันนับแต่วันแจ้งหนี้<br>PLEASE MAKE PAYMENT WITHIN 7 DAYS FROM THE INVOICE DATE</footer>
+ </div>`;
+}
+
+function tlFillElectric(row) {
+ const cents=tlCents(row.electric,'ค่าไฟจากชีต');
+ el('tlElectricAmount').value=cents===null?'':String(cents/100);
+ el('tlElectricService').value='0';
+ tlUpdateElectric();
+}
+function tlEnableElectric() {
+ const ready=HOUSE_NAMES.includes(valueOf('tlHouse')) && Number(valueOf('tlMonth'))>=1 && Number(valueOf('tlMonth'))<=12;
+ el('tlElectricFields').disabled=!el('tlElectricInclude').checked;
+}
+function tlResetElectric() {
+ for(const key of ['Account','Doc','Premise','ReadDate','Due','Prev','Current','Usage','Amount','Service','Total','Contact']) el('tlElectric'+key).value='';
+ el('tlElectricCurrent').setCustomValidity('');
+ el('tlElectricBill').hidden=true;
+ tlEnableElectric();
+}
+function tlReadElectric() {
+ if(!el('tlElectricInclude').checked) return null;
+ if(el('tlElectricFields').disabled) throw new Error('กรุณาเลือกบ้านและเดือนก่อนกรอกค่าไฟ');
+ for(const key of ['Doc','Premise','ReadDate','Due']) if(!valueOf('tlElectric'+key)) throw new Error('กรอกข้อมูลเอกสารค่าไฟให้ครบ');
+ for(const key of ['ReadDate','Due']) if(Number.isNaN(new Date(valueOf('tlElectric'+key)+'T12:00:00').getTime())) throw new Error('วันที่ในบิลค่าไฟไม่ถูกต้อง');
+ if(valueOf('tlElectricDue')<valueOf('tlDate')) throw new Error('วันครบกำหนดชำระค่าไฟต้องไม่ก่อนวันที่ออกบิล');
+ const previous=valueOf('tlElectricPrev'),current=valueOf('tlElectricCurrent');
+ if(previous===''||current===''||!Number.isFinite(Number(previous))||!Number.isFinite(Number(current))||Number(previous)<0||Number(current)<Number(previous)||Number(current)>999999999) throw new Error('ตรวจเลขมิเตอร์ค่าไฟ: ครั้งหลังต้องไม่น้อยกว่าครั้งก่อน');
+ const amounts=['Amount','Service'].map(key=>tlCents(valueOf('tlElectric'+key),'ค่าไฟ'));
+ if(amounts.some(n=>n===null||n<0||n>99999999900)) throw new Error('กรอกค่าพลังงานและค่าบริการเป็นยอดไม่ติดลบ กรอก 0 หากไม่มี');
+ return {previous,current,usage:Math.round((Number(current)-Number(previous))*1000)/1000,amounts,total:amounts.reduce((a,b)=>a+b,0)};
+}
+function tlUpdateElectric() {
+ const prev=valueOf('tlElectricPrev'),current=valueOf('tlElectricCurrent');
+ const valid=prev!==''&&current!==''&&Number.isFinite(Number(prev))&&Number.isFinite(Number(current))&&Number(prev)>=0&&Number(current)>=Number(prev);
+ el('tlElectricUsage').value=valid?String(Math.round((Number(current)-Number(prev))*1000)/1000):'';
+ el('tlElectricCurrent').setCustomValidity(current!==''&&prev!==''&&!valid?'ตรวจเลขอ่านมิเตอร์ค่าไฟ':'');
+ try {
+  const amounts=['Amount','Service'].map(key=>tlCents(valueOf('tlElectric'+key),'ค่าไฟ'));
+  el('tlElectricTotal').value=amounts.every(n=>n!==null&&n>=0&&n<=99999999900)?tlMoney(amounts.reduce((a,b)=>a+b,0)):'';
+ } catch(error) {el('tlElectricTotal').value='';}
+}
+function tlRenderElectric(data,period,dateText) {
+ el('tlElectricBill').hidden=!data;
+ if(!data) {el('tlElectricBill').innerHTML='';return;}
+ const E=escapeHtml,V=key=>E(valueOf('tlElectric'+key));
+ const date=key=>E(new Date(valueOf('tlElectric'+key)+'T12:00:00').toLocaleDateString('th-TH',{day:'numeric',month:'long',year:'numeric'}));
+ el('tlElectricBill').innerHTML=`<div class="tl-electric-card">
+ <header><div><h2>โครงการเดอะ โมเดิร์น วิว</h2><b>THE MODERN VIEW PROJECT</b><p>ต.ทับใต้ อ.หัวหิน จ.ประจวบคีรีขันธ์</p></div><h3>ใบแจ้งค่าไฟฟ้า<small>ELECTRICITY INVOICE</small></h3></header>
+ <p><b>ชื่อผู้ใช้ไฟฟ้า / NAME:</b> ${E(valueOf('tlCustomer'))}\n<b>บ้าน / HOUSE:</b> ${E(valueOf('tlHouse'))}\n<b>สถานที่ใช้ไฟฟ้า / PREMISE:</b> ${V('Premise')}</p>
+ <table><thead><tr><th>หมายเลขผู้ใช้<small>CA / REF. NO. 1</small></th><th>เลขที่เอกสาร<small>CA / REF. NO. 2</small></th><th>วันที่พิมพ์<small>Printing Date</small></th><th>วันที่อ่านหน่วย<small>Meter Reading Date</small></th><th>ประจำเดือน<small>Bill Period</small></th></tr></thead><tbody><tr><td>${V('Account')||'—'}</td><td>${V('Doc')}</td><td>${E(dateText)}</td><td>${date('ReadDate')}</td><td>${E(period)}</td></tr></tbody></table>
+ <table><thead><tr><th>เลขครั้งหลัง<small>Recent Reading</small></th><th>เลขครั้งก่อน<small>Previous Reading</small></th><th>จำนวนหน่วยที่ใช้<small>Consumption</small></th><th>ค่าพลังงาน<small>Electricity Charges</small></th><th>ค่าบริการรายเดือน<small>Monthly Service Fee</small></th></tr></thead><tbody><tr><td>${E(data.current)}</td><td>${E(data.previous)}</td><td>${data.usage}</td><td>${tlMoney(data.amounts[0])}</td><td>${tlMoney(data.amounts[1])}</td></tr></tbody></table>
+ <div class="tl-electric-total"><span>วันครบกำหนดชำระ: ${date('Due')}</span><b>รวมเงินค่าไฟฟ้าเดือนปัจจุบัน: ${tlMoney(data.total)} บาท</b></div><p>จำนวนเงิน (ตัวอักษร): ${tlBahtText(data.total)}</p>
+ <p class="tl-payment">โปรดตรวจสอบรายละเอียดบัญชีรับชำระเงินกับฝ่ายบริการโครงการก่อนชำระ</p>
+ ${valueOf('tlElectricNote')?'<p>หมายเหตุ: '+V('Note')+'</p>':''}
+ ${valueOf('tlElectricContact')?'<p>ติดต่อสอบถาม: '+V('Contact')+'</p>':''}
+ <p>ผู้ออกบิล: ${E(valueOf('tlIssuer').trim())}</p>
+ </div>`;
+}
+
+
+function tlCanPreview() {
+ const house=valueOf('tlHouse'),month=Number(valueOf('tlMonth'));
+ if(!HOUSE_NAMES.includes(house)||!Number.isInteger(month)||month<1||month>12) return false;
+ const large=el('tlLargeInclude').checked;
+ if(!large&&!el('tlWaterInclude').checked&&!el('tlElectricInclude').checked) return false;
+ return !large||!!(tlBillingData&&tlBillingData.house===house&&tlBillingData.month===month);
+}
+function tlSelectBills() {
+ tlInvalidate();
+ const large=el('tlLargeInclude').checked;
+ el('tlDocument').disabled=!large;el('tlDocument').required=large;
+ el('tlNote').disabled=!large;
+ el('tlBill').hidden=!large;
+ el('tlWaterFields').hidden=!el('tlWaterInclude').checked;
+ el('tlElectricFields').hidden=!el('tlElectricInclude').checked;
+ tlToggleWater();tlEnableElectric();
+ const names=[['tlLargeInclude','บิลใหญ่'],['tlWaterInclude','บิลน้ำ'],['tlElectricInclude','บิลไฟ']].filter(([id])=>el(id).checked).map(([,name])=>name);
+ el('tlSelectionLabel').textContent='เลือกประเภทบิล: '+(names.join(', ')||'ยังไม่เลือก');
+ el('tlPreviewButton').disabled=!tlCanPreview();
+}
+
+
+
+
+document.addEventListener('DOMContentLoaded',()=>{
+ el('tlMonth').value=String(new Date().getMonth()+1);
+ el('tlYear').value=String(new Date().getFullYear()+543);
+ el('tlHouse').innerHTML='<option value="">เลือกบ้าน</option>'+HOUSE_NAMES.map(h=>`<option value="${h}">${h}</option>`).join('');
+ const now=new Date();el('tlDate').value=now.getFullYear()+'-'+String(now.getMonth()+1).padStart(2,'0')+'-'+String(now.getDate()).padStart(2,'0');
+ for(const id of ['tlLargeInclude','tlWaterInclude','tlElectricInclude'])el(id).addEventListener('change',tlSelectBills);
+ el('tlMonth').addEventListener('change',()=>{tlResetWater();tlLoadCharges()});
+ el('tlYear').addEventListener('change',()=>{tlResetWater();tlLoadCharges()});
+ el('tlHouse').addEventListener('change',()=>{el('tlCustomer').value='';tlResetWater();tlLoadCharges()});
+ el('tlWaterFields').addEventListener('input',()=>{tlInvalidate();tlUpdateWater()});
+ el('tlElectricFields').addEventListener('input',()=>{tlInvalidate();tlUpdateElectric()});
+ el('tlReload').addEventListener('click',tlLoadCharges);
+ el('tlBillingForm').addEventListener('input',tlInvalidate);
+ el('tlBillingForm').addEventListener('submit',tlRenderPreview);
+ el('tlPrint').addEventListener('click',()=>{if(tlPreviewReady){document.body.classList.add('tl-printing');window.print();document.body.classList.remove('tl-printing')}});
+ window.addEventListener('afterprint',()=>document.body.classList.remove('tl-printing'));
+ el('tlWaterService').value='0';el('tlWaterGarbage').value='0';el('tlElectricService').value='0';tlSelectBills();
+});
+
 </script>
 </body>
 </html>
